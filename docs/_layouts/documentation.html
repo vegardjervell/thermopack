@@ -11,6 +11,27 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     {% include head-custom.html %}
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script>
+        MathJax.Hub.Config({
+            tex2jax: {
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        });
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+            }
+        });
+    </script>
 </head>
 <body>
 <a id="skip-to-content" href="#content">Skip to the content.</a>
@@ -23,14 +44,6 @@
 <div class="main-content">
     <header class="page-header" role="banner">
         <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
-        <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
-        {% if site.github.is_project_page %}
-            <a href="{{ site.github.repository_url }}" class="btn">View on GitHub</a>
-        {% endif %}
-        {% if site.show_downloads %}
-            <a href="{{ site.github.zip_url }}" class="btn">Download .zip</a>
-            <a href="{{ site.github.tar_url }}" class="btn">Download .tar.gz</a>
-        {% endif %}
     </header>
 
     <main id="content" class="main-content" role="main">
@@ -76,6 +89,29 @@
     .sidebar li:hover ul {
         display: block;
     }
+
+    .main-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .inner-main-content {
+        padding: 10px; /* Add padding to separate content from edges */
+    }
+
+    .main-content header.page-header {
+        padding: 0px 0; /* Adjust top and bottom padding as needed */
+        text-align: center; /* Center align the text */
+        width: 100%
+    }
+
+    .main-content header.page-header h1 {
+        margin: 0;
+        padding: 20px 0; /* Adjust top and bottom padding for the heading */
+    }
+
+
 </style>
 
 </body>

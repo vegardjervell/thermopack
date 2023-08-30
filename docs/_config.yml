@@ -6,3 +6,16 @@ remote_theme: pages-themes/cayman@v0.2.0
 plugins:
 - jekyll-feed
 - jekyll-remote-theme # add this line to the plugins list if you already have one
+
+data_sources:
+  sidebar: "sidebar.md"
+
+includes_dir: _includes
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "documentation"
+    values:
+      layout: "default"
