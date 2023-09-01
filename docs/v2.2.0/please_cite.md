@@ -1,5 +1,6 @@
 ---
-layout: documentation
+layout: default
+version: 
 title: Please Cite
 permalink: /documentation/please_cite.html
 ---

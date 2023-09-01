@@ -1,5 +1,6 @@
 ---
-layout: documentation
+layout: default
+version: 
 title: More advanced usage
 permalink: /documentation/more_advanced.html
 ---

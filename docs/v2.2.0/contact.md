@@ -1,5 +1,6 @@
 ---
-layout: documentation
+layout: default
+version: 
 title: Authors, maintainers and contact persons
 permalink: /documentation/contact.html
 ---

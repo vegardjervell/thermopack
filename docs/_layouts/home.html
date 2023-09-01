@@ -11,27 +11,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     {% include head-custom.html %}
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-    <script>
-        MathJax.Hub.Config({
-            tex2jax: {
-                displayMath: [['$$', '$$']],
-                processEscapes: true
-            }
-        });
-    </script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-            }
-        });
-    </script>
 </head>
 <body>
 <a id="skip-to-content" href="#content">Skip to the content.</a>
@@ -67,7 +46,7 @@
 <div class="main-content">
     <header class="page-header" role="banner">
         <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
-        <h2 class="project-tagline">ThermoPack - {{ page.version | default: "Latest (beta)" }}</h2>
+        <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
     </header>
 
     <main id="content" class="main-content" role="main">

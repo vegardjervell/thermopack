@@ -1,7 +1,8 @@
 ---
-layout: documentation
+version: 2.1.0
+layout: default
 title: Component identifiers
-permalink: /documentation/Component-name-mapping.html
+permalink: /v2.1.0/Component-name-mapping.html
 ---
 
 <!---

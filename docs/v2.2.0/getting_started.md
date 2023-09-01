@@ -1,5 +1,6 @@
 ---
-layout: documentation
+layout: default
+version: 
 title: Getting Started
 permalink: /documentation/getting_started.html
 ---
