@@ -17,9 +17,14 @@
       * [Ideal gas heat capacity](/thermopack/documentation/more_advanced.html#ideal-gas-heat-capacity)
       * [Melting and sublimation curve correlations](/thermopack/documentation/more_advanced.html#melting-and-sublimation-curve-correlations)
 * [Component identifiers](/thermopack/documentation/Component-name-mapping.html) 
+* Documentation
+  * [`thermo` - The core of the Python interface](/thermopack/documentation/thermo.html)
+  * [`saft` - Parent class for SAFT-type equations of state](/thermopack/documentation/saft.html)
+    * [`pcsaft` - The PC-SAFT EoS](/thermopack/documentation/pcsaft.html)
+    * [`saftvrmie` - The SAFT-VR Mie EoS](/thermopack/documentation/saftvrmie.html)
+    * [`saftvrqmie` - The SAFT-VRQ Mie EoS](/thermopack/documentation/saftvrqmie.html)
+* [Installation](/thermopack/documentation/source_build.html)
 * [Latest version (beta)](/thermopack/)
 * [v2.1.0](/thermopack/v2.1.0/home.html)
 * [Citation](/thermopack/documentation/please_cite.html)
 * [Contact](/thermopack/documentation/contact.html)
-
-  
