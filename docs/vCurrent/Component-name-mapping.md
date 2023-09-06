@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Component identifiers
-permalink: /documentation/Component-name-mapping.html
+permalink: /vcurrent/Component-name-mapping.html
 ---
 
 <!---

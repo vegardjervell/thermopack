@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Authors, maintainers and contact persons
-permalink: /documentation/contact.html
+permalink: /contact.html
 ---
 
 Morten Hammer (morten.hammer@sintef.no, morten.hammer@ntnu.no)<br>

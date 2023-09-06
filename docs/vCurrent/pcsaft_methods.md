@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Methods in the pcsaft class
-permalink: /documentation/pcsaft.html
+permalink: /vcurrent/pcsaft.html
 ---
 
 <!--- 

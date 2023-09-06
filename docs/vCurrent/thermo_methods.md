@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Methods in the thermo class
-permalink: /documentation/thermo.html
+permalink: /vcurrent/thermo.html
 ---
 
 <!--- 

@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Getting Started
-permalink: /documentation/getting_started.html
+permalink: /vcurrent/getting_started.html
 ---
 
 # Getting started - Python

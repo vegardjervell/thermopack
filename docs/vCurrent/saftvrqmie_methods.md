@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Methods in the saftvrqmie class
-permalink: /documentation/saftvrqmie.html
+permalink: /vcurrent/saftvrqmie.html
 ---
 
 <!--- 

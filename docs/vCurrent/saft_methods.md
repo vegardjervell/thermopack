@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Methods in the saft class
-permalink: /documentation/saft.html
+permalink: /vcurrent/saft.html
 ---
 
 <!--- 

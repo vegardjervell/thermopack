@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Installing the latest version of ThermoPack
-permalink: /documentation/source_build.html
+permalink: /vcurrent/source_build.html
 ---
 
 ## Using pip

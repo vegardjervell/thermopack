@@ -16,6 +16,8 @@ data_sources:
 
 includes_dir: _includes
 
+pypi_url: 'https://pypi.org/project/thermopack/'
+
 vcurrent:
   version: 'Latest version (beta)'
 

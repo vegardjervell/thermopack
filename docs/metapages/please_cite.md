@@ -2,7 +2,7 @@
 layout: default
 version: 
 title: Please Cite
-permalink: /documentation/please_cite.html
+permalink: /please_cite.html
 ---
 
 Thermopack has been developed through many projects, and have produced many
