@@ -19,5 +19,5 @@
 * [Component identifiers](/thermopack/v2.1.0/Component-name-mapping.html) 
 * [Latest version (beta)](/thermopack/)
 * [v2.1.0](/thermopack/v2.1.0/home.html)
-* [Citation](/thermopack/v2.1.0/please_cite.html)
-* [Contact](/thermopack/v2.1.0/contact.html)
+* [Citation](/thermopack/please_cite.html)
+* [Contact](/thermopack/contact.html)
