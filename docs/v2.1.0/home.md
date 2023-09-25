@@ -8,7 +8,7 @@ permalink: /v2.1.0/home.html
 
 ThermoPack Version 2.1.0 was released on December 7th 2022, and was the first release to be made available on the Python Packaging Index.
 It is the most recent stable release of ThermoPack, for more recent features and potential bugfixes, ThermoPack must be 
-[installed from source](/thermopack/documentation/source_build.html#building-from-source).
+[installed from source](/thermopack/vcurrent/source_build.html#building-from-source).
 
 Thermopack is a thermodynamics library for multi-component and
 multi-phase thermodynamics developed at [SINTEF Energy
