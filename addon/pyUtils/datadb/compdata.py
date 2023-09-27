@@ -575,7 +575,7 @@ class comp_list(object):
 
             def has_param_txt(has_param):
                 if has_param is True:
-                    return ':heavy_check_mark:'
+                    return '&#10004;'
                 return ' '
 
             has_svrm_params = has_param_txt(has_svrm_params)

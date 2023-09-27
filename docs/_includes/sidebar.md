@@ -19,7 +19,7 @@
 * [Adding new fluids](/thermopack/vcurrent/new_fluids.html)
     * [Ideal gas heat capacity](/thermopack/vcurrent/new_fluids.html#ideal-gas-heat-capacity)
     * [Melting and sublimation curve correlations](/thermopack/vcurrent/new_fluids.html#melting-and-sublimation-curve-correlations)
-* Documentation
+* [Documentation](/thermopack/vcurrent/method_docs.html)
     * [`thermo` - The core of the Python interface](/thermopack/vcurrent/thermo.html)
     * [`saft` - Parent class for SAFT-type equations of state](/thermopack/vcurrent/saft.html)
       * [`pcsaft` - The PC-SAFT EoS](/thermopack/vcurrent/pcsaft.html)
