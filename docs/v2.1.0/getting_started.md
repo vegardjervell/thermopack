@@ -10,6 +10,19 @@ This is a short introduction to thermopack. Once you've gotten started, we recom
 
 Equations of State (EoS's) in ThermoPack are classes. To do calculations for a given mixture an EoS object must first be initialized for that mixture, as demonstrated in the [Initializing an EoS section](#Initialising-an-equation-of-state). Then, a wide variety of thermodynamic computations can be done, as demonstrated in the remaining sections.
 
+## Contents
+* [Initialising an equation of state](#initialising-an-equation-of-state)
+* [pVT properties](#pvt-properties)
+  * [Differentials](#differentials)
+* [Phase diagrams and equilibria](#phase-diagrams-and-equilibria)
+  * [Flash calculations](#flash-calculations)
+  * [Phase envelopes](#phase-envelopes)
+    * [Tp- and Tv- envelopes](#tp--and-tv--phase-envelopes)
+    * [pxy- envelopes](#pxy--phase-envelopes)
+  * [Dew- and bubble points](#dew--and-bubble-points)
+* [Isolines](#isolines)
+* [Critical point](#critical-point)
+
 ## Initialising an equation of state
 An EoS is initialized by passing in the [fluid identifiers](https://github.com/thermotools/thermopack/wiki/Component-name-mapping) of the mixture, for example
 
@@ -132,7 +145,7 @@ As with other calculations, the primary source on how available methods for flas
 ### Flash calculations
 Flash calculations of several kinds are handled by the methods `twophase_tpflash()`, `twophase_psflash()`, `twophase_phflash()` and `twophase_uvflash()`.
 
-See the [Flash interfaces](https://github.com/thermotools/thermopack/wiki/Methods-in-the-thermo-class#flash-interfaces) in the [documentation of the `thermo` class](https://github.com/thermotools/thermopack/wiki/Methods-in-the-thermo-class#methods-in-the-thermo-class-thermopy) for the specifics on the different flash routines.
+See the [Flash interfaces](/thermopack/v2.1.0/thermo_methods.html#flash-interfaces) in the [documentation of the `thermo` class](https://github.com/thermotools/thermopack/wiki/Methods-in-the-thermo-class#methods-in-the-thermo-class-thermopy) for the specifics on the different flash routines.
 
 An example calculation using `twophase_tpflash()` may be done as
 ```python
@@ -142,31 +155,11 @@ eos = saftvrqmie('H2,HE,NE', minimum_temperature=20) # NB: Set minimum temperatu
 T = 35 # Kelvin
 p = 3e6 # Pascal (30 bar)
 z = [0.1, 0.25, 0.65] # Molar composition
-flsh = eos.two_phase_tpflash(T, p, x) # flsh is a FlashResult object
-print(flsh)
-### Output: ###
-# FlashResult object for Tp-flash
-# Containing the attributes (description, name, value):
-#   	Flash type                     flash_type : Tp  
-#   	Total composition              z     : [0.1, 0.25, 0.65]  
-#   	Temperature [K]                T     : 35  
-#   	pressure [Pa]                  p     : 3000000.0  
-#   	Liquid phase composition       x     : [0.05407302 0.03859287 0.90733411]  
-#   	Vapour phase composition       y     : [0.14642524 0.46370066 0.3898741 ]  
-#   	Vapour fraction                betaV : 0.497302408174766  
-#   	Liquid fraction                betaL : 0.5026975918252341  
-#   	Phase indentifier index        phase : 0  
+x, y, betaV, betaL, phase = eos.two_phase_tpflash(T, p, z) # Flash returns a tuple 
 ```
-the result of the flash is accessed from the attributes of the `FlashResult` object, found in [`utils.py`](https://github.com/thermotools/thermopack/blob/main/addon/pycThermopack/thermopack/utils.py), as
-```
-# Continued
-x = flsh.x # Liquid composition
-y = flsh.y # Vapour composition
-betaL = flsh.betaL # 
-# ... etc
-```
-
-The `FlashResult` object returned by the different flash routines all contain the same attributes. 
+The tuple returned by the different flash routines hold somewhat different content. Look up the specific flash routine 
+you need in the [documentation of the flash interfaces](/thermopack/v2.1.0/thermo_methods.html#flash-interfaces) to see
+what is returned, an in what order.
 
 ### Phase envelopes
 

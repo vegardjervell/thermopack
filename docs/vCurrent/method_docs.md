@@ -13,21 +13,21 @@ methods to compute specific Helmholtz energy contributions, or other methods spe
 The documentation for the `thermo` class is found [here](thermo_methods.html)
 
 The available equations of state in ThermoPack are indicated in the table below, with links to the
-documentation for the respective class in the cases where the class implements any functionality other than a constructor.
+documentation for the respective class in the cases where the class implements any specific non-inherited functionality.
 Information about available species can be found on the [Component identifiers](component-name-mapping.html) page, 
 all components are avialable for the cubic equations of state.
 
 The (Python-side) inheritance structure for the classes is shown in the list below the table.
 
-| [Cubic]()                 | Extended Cubic    | [SAFT](saft_methods.html)               | [Multi- parameter]() | Other                            |
-|---------------------------|-------------------|-----------------------------------------|----------------------|----------------------------------|
-| VdW                       | [Quantum cubic]() | [SAFT-VR Mie](saftvrmie_methods.html)   | MEOS                 | [Extended Corresponding state]() |
-| SRK                       | [CPA]()           | [SAFT-VRQ Mie](saftvrqmie_methods.html) | NIST-MEOS            |                                  |
-| PR                        | SRK-CPA           | [PC-SAFT](pcsaft_methods.html)          | MBWR-16              |                                  |
-| Translated- Consistent PR | PR-CPA            | SPC-SAFT                                | MBWR-32              |                                  |
-| Schmidt- Wensel           |                   | PCP-SAFT                                | Gerg-2008            |                                  |
-| Patel-Teja                |                   |                                         |                      |                                  |
-| Lee-Kesler                |                   |                                         |                      |                                  |
+| [Cubic](cubic_methods.md) | Extended Cubic          | [SAFT](saft_methods.html)               | [Multi- parameter](multiparam_methods.html) | Other                                                |
+|---------------------------|-------------------------|-----------------------------------------|---------------------------------------------|------------------------------------------------------|
+| VdW                       | Quantum cubic           | [SAFT-VR Mie](saftvrmie_methods.html)   | MEOS                                        | [Extended Corresponding state](ext_csp_methods.html) |
+| SRK                       | [CPA](cpa_methods.html) | [SAFT-VRQ Mie](saftvrqmie_methods.html) | NIST-MEOS                                   |                                                      |
+| PR                        | SRK-CPA                 | [PC-SAFT](pcsaft_methods.html)          | MBWR-16                                     |                                                      |
+| Translated- Consistent PR | PR-CPA                  | SPC-SAFT                                | MBWR-32                                     |                                                      |
+| Schmidt- Wensel           |                         | PCP-SAFT                                | Gerg-2008                                   |                                                      |
+| Patel-Teja                |                         | [PeTS](pets_methods.html)               |                                             |                                                      |
+| Lee-Kesler                |                         |                                         |                                             |                                                      |
 
 * [thermo](thermo_methods.html)
   * Lee-Kesler 

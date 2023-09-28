@@ -1,8 +1,8 @@
 ---
 layout: default
-version: 
+version: 2.1.0
 title: Methods in the saftvrqmie class
-permalink: /vcurrent/saftvrqmie_methods.html
+permalink: /v2.1.0/saftvrqmie_methods.html
 ---
 
 <!--- 

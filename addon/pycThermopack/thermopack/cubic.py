@@ -17,8 +17,8 @@ class cubic(thermo):
     """
     def __init__(self, comps=None, eos=None, mixing="vdW", alpha="Classic",
              parameter_reference="Default", volume_shift=False):
-        """Initialize cubic model in thermopack
-
+        """Constructor
+        Initialize cubic model in thermopack
         Unless both 'comps' and 'eos' parameters are specified, model must be initialized for specific components
         later by direct call to 'init'.
         Model can at any time be re-initialized for new components or parameters by direct calls to 'init'
@@ -73,7 +73,8 @@ class cubic(thermo):
 
     def init(self, comps, eos, mixing="vdW", alpha="Classic",
              parameter_reference="Default", volume_shift=False):
-        """Initialize cubic model in thermopack
+        """Constructor
+        Initialize cubic model in thermopack
 
         Args:
             comps (str): Comma separated list of component names
@@ -127,7 +128,8 @@ class cubic(thermo):
         self.nc = max(len(comps.split(" ")),len(comps.split(",")))
 
     def get_kij(self, c1, c2):
-        """Get attractive energy interaction parameter kij, where aij = sqrt(ai*aj)*(1-kij)
+        """Utility
+        Get attractive energy interaction parameter kij, where aij = sqrt(ai*aj)*(1-kij)
 
         Args:
             c1 (int): Component one
@@ -153,7 +155,8 @@ class cubic(thermo):
         return kij_c.value
 
     def set_kij(self, c1, c2, kij):
-        """Set attractive energy interaction parameter kij, where aij = sqrt(ai*aj)*(1-kij)
+        """Utility
+        Set attractive energy interaction parameter kij, where aij = sqrt(ai*aj)*(1-kij)
 
         Args:
             c1 (int): Component one
@@ -176,7 +179,8 @@ class cubic(thermo):
 
 
     def get_lij(self, c1, c2):
-        """Get co-volume interaction parameter lij, where bij = 0.5*(bi+bj)*(1-lij)
+        """Utility
+        Get co-volume interaction parameter lij, where bij = 0.5*(bi+bj)*(1-lij)
 
         Args:
             c1 (int): Component one
@@ -202,7 +206,8 @@ class cubic(thermo):
         return lij_c.value
 
     def set_lij(self, c1, c2, lij):
-        """Set co-volume interaction parameter lij, where bij = 0.5*(bi+bj)*(1-lij)
+        """Utility
+        Set co-volume interaction parameter lij, where bij = 0.5*(bi+bj)*(1-lij)
 
         Args:
             c1 (int): Component one
@@ -224,7 +229,8 @@ class cubic(thermo):
                        byref(lij_c))
 
     def get_hv_param(self, c1, c2):
-        """Get Huron-Vidal parameters
+        """Utility
+        Get Huron-Vidal parameters
 
         Args:
             c1 (int): Component one
@@ -278,7 +284,8 @@ class cubic(thermo):
         return alpha_ij_c.value, alpha_ji_c.value, a_ij_c.value, a_ji_c.value, b_ij_c.value, b_ji_c.value, c_ij_c.value, c_ji_c.value
 
     def set_hv_param(self, c1, c2, alpha_ij, alpha_ji, a_ij, a_ji, b_ij, b_ji, c_ij, c_ji):
-        """Set Huron-Vidal parameters
+        """Utility
+        Set Huron-Vidal parameters
 
         Args:
             c1 (int): Component one
@@ -330,7 +337,8 @@ class cubic(thermo):
 
 
     def get_ws_param(self, c1, c2):
-        """Get Wong-Sandler parameters
+        """Utility
+        Get Wong-Sandler parameters
 
         Args:
             c1 (int): Component one
@@ -369,7 +377,8 @@ class cubic(thermo):
         return alpha_ij_c.value, alpha_ji_c.value, k_ij_c.value, k_ji_c.value, tau_ij_c.value, tau_ji_c.value
 
     def set_ws_param(self, c1, c2, alpha_ij, alpha_ji, k_ij, k_ji, tau_ij, tau_ji):
-        """Set Wong-Sandler parameters
+        """Utility
+        Set Wong-Sandler parameters
 
         Args:
             c1 (int): Component one
@@ -413,7 +422,8 @@ class cubic(thermo):
 
 
     def get_ci(self, cidx):
-        """Get volume correction parameters
+        """Utility
+        Get volume correction parameters
 
         Args:
             cidx (int): Component index
@@ -446,7 +456,8 @@ class cubic(thermo):
         return ciA_c.value, ciB_c.value, ciC_c.value, ci_type_c.value
 
     def set_ci(self, cidx, ciA, ciB=0.0, ciC=0.0, ci_type=1):
-        """Set volume correction parametrs
+        """Utility
+        Set volume correction parametrs
 
         Args:
             cidx (int): Component index
@@ -475,7 +486,8 @@ class cubic(thermo):
                       byref(ci_type_c))
 
     def get_covolumes(self):
-        """Get component covolumes (L/mol)
+        """Utility
+        Get component covolumes (L/mol)
 
         Returns:
             np.ndarray: Component covolumes (L/mol)
@@ -488,7 +500,8 @@ class cubic(thermo):
         return np.array(b_c)
 
     def get_energy_constants(self):
-        """Get component energy constants in front of alpha. (Pa*L^2/mol^2)
+        """Utility
+        Get component energy constants in front of alpha. (Pa*L^2/mol^2)
 
         Returns:
             np.ndarray: Component energy constants in front of alpha. (Pa*L^2/mol^2)

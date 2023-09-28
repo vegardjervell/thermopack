@@ -10,6 +10,19 @@ This is a short introduction to thermopack. Once you've gotten started, we recom
 
 Equations of State (EoS's) in ThermoPack are classes. To do calculations for a given mixture an EoS object must first be initialized for that mixture, as demonstrated in the [Initializing an EoS section](#Initialising-an-equation-of-state). Then, a wide variety of thermodynamic computations can be done, as demonstrated in the remaining sections.
 
+## Contents
+* [Initialising an equation of state](#initialising-an-equation-of-state)
+* [pVT properties](#pvt-properties)
+  * [Differentials](#differentials)
+* [Phase diagrams and equilibria](#phase-diagrams-and-equilibria)
+  * [Flash calculations](#flash-calculations)
+  * [Phase envelopes](#phase-envelopes)
+    * [Tp- and Tv- envelopes](#tp--and-tv--phase-envelopes)
+    * [pxy- envelopes](#pxy--phase-envelopes)
+  * [Dew- and bubble points](#dew--and-bubble-points)
+* [Isolines](#isolines)
+* [Critical point](#critical-point)
+
 ## Initialising an equation of state
 An EoS is initialized by passing in the [fluid identifiers](https://github.com/thermotools/thermopack/wiki/Component-name-mapping) of the mixture, for example
 

@@ -1,8 +1,8 @@
 ---
 layout: default
-version: 
+version: 2.1.0
 title: Methods in the thermo class
-permalink: /vcurrent/thermo_methods.html
+permalink: /v2.1.0/thermo_methods.html
 ---
 
 <!--- 
@@ -54,33 +54,18 @@ The `thermo` class, found in `addon/pycThermopack/thermopack/thermo.py`, is the 
     * [dew_pressure](#dew_pressureself-temp-z)
     * [dew_temperature](#dew_temperatureself-press-z)
     * [get_binary_pxy](#get_binary_pxyself-temp-maximum_pressure150000000-minimum_pressure1000000-maximum_dz0003-maximum_dlns001)
-    * [get_binary_txy](#get_binary_txyself-pressure-minimum_temperature00-maximum_dz0003-maximum_dlns0005)
     * [get_bp_term](#get_bp_termself-i_term)
     * [get_envelope_twophase](#get_envelope_twophaseself-initial_pressure-z-maximum_pressure150000000-minimum_temperaturenone-step_size_factor10-step_sizenone-calc_vfalse-initial_temperaturenone)
     * [get_pure_fluid_saturation_curve](#get_pure_fluid_saturation_curveself-initial_pressure-initial_temperaturenone-inone-max_delta_press200000-nmax100-log_linear_gridfalse)
     * [global_binary_plot](#global_binary_plotself-maximum_pressure150000000-minimum_pressure1000000-minimum_temperature1500-maximum_temperature5000-include_azeotropesfalse)
-    * [melting_pressure_correlation](#melting_pressure_correlationself-i-maximum_temperaturenone-nmax100-scale_to_eostrue)
     * [solid_envelope_plot](#solid_envelope_plotself-initial_pressure-z-maximum_pressure150000000-minimum_temperature1700-calc_esvfalse)
-    * [sublimation_pressure_correlation](#sublimation_pressure_correlationself-i-minimum_temperaturenone-nmax100-scale_to_eostrue)
   * [Isolines](#isolines)
     * [get_isenthalp](#get_isenthalpself-enthalpy-z-minimum_pressure1000000-maximum_pressure150000000-minimum_temperature2000-maximum_temperature5000-nmax100)
     * [get_isentrope](#get_isentropeself-entropy-z-minimum_pressure1000000-maximum_pressure150000000-minimum_temperature2000-maximum_temperature5000-nmax100)
     * [get_isobar](#get_isobarself-press-z-minimum_temperature2000-maximum_temperature5000-nmax100)
     * [get_isotherm](#get_isothermself-temp-z-minimum_pressure1000000-maximum_pressure150000000-nmax100)
-    * [map_meta_isentrope](#map_meta_isentropeself-z-initial_pressure-entropy-minimum_pressure-n_max50)
-    * [map_meta_isotherm](#map_meta_isothermself-temperature-z-phase-n50)
   * [Stability interfaces](#stability-interfaces)
     * [critical](#criticalself-n-temp00-v00-tol1e-07-v_minnone)
-    * [critical_pressure](#critical_pressureself-i)
-    * [critical_temperature](#critical_temperatureself-i)
-    * [critical_volume](#critical_volumeself-i)
-    * [density_lnf_t](#density_lnf_tself-temp-lnf-rho_initial)
-    * [density_mu_t](#density_mu_tself-temp-mu-rho_initial)
-    * [get_critical_parameters](#get_critical_parametersself-i)
-    * [map_meta_isentrope](#map_meta_isentropeself-z-initial_pressure-entropy-minimum_pressure-n_max50)
-    * [map_meta_isotherm](#map_meta_isothermself-temperature-z-phase-n50)
-    * [spinodal](#spinodalself-z-initial_pressure1000000-initial_liquid_temperaturenone-dlnvnone-min_temperature_vapornone)
-    * [spinodal_point](#spinodal_pointself-z-pressure-phase-temperaturenone)
   * [Virial interfaces](#virial-interfaces)
     * [binary_third_virial_matrix](#binary_third_virial_matrixself-temp)
     * [second_virial_matrix](#second_virial_matrixself-temp)
@@ -1100,11 +1085,9 @@ Do isenthalpic-isobaric (HP) flash
 
 #### Returns:
 
-&nbsp;&nbsp;&nbsp;&nbsp; **FlashResult :** 
+&nbsp;&nbsp;&nbsp;&nbsp; **tuple :** 
 
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Struct holding the result of the flash (Temperature, phase fractions,
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; phase compositions and phase identifier)
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  (Temperature, x, y, betaV, betaL, phase)
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
@@ -1133,11 +1116,9 @@ Do isentropic-isobaric (SP) flash
 
 #### Returns:
 
-&nbsp;&nbsp;&nbsp;&nbsp; **FlashResult :** 
+&nbsp;&nbsp;&nbsp;&nbsp; **tuple :** 
 
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Struct holding the result of the flash (Temperature, phase fractions,
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; phase compositions and phase identifier)
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  (Temperature, x, y, betaV, betaL, phase)
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
@@ -1162,9 +1143,9 @@ Do isothermal-isobaric (TP) flash
 
 #### Returns:
 
-&nbsp;&nbsp;&nbsp;&nbsp; **FlashResult :** 
+&nbsp;&nbsp;&nbsp;&nbsp; **tuple :** 
 
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Struct holding the result of the flash (phase fractions, phase compositions and phase identifier)
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  (x, y, betaV, betaL, phase)
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
@@ -1201,11 +1182,9 @@ Do isoenergetic-isochoric (UV) flash
 
 #### Returns:
 
-&nbsp;&nbsp;&nbsp;&nbsp; **FlashResult :** 
+&nbsp;&nbsp;&nbsp;&nbsp; **tuple :** 
 
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Struct holding the result of the flash (Temperature, pressure, phase fractions,
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; phase compositions and phase identifier)
+&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  (T, p, x, y, betaV, betaL, phase)
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
@@ -1478,73 +1457,6 @@ Calculate binary three phase envelope
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L2VE[1] -> Dew line composition (mole fraction of component 1)
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L2VE[2] -> Pressure [Pa]
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; If one or more of the equilibria are not found the corresponding tuple is (None, None, None)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `get_binary_txy(self, pressure, minimum_temperature=0.0, maximum_dz=0.003, maximum_dlns=0.005)`
-Calculate binary isobaric three phase envelope
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **minimum_temperature (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Exit on minimum temperature (K).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **maximum_dz (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Maximum composition step. Defaults to 0.003.
-
-&nbsp;&nbsp;&nbsp;&nbsp; **maximum_dlns (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Maximum step in most sensitive envelope variable (the specification variable), see `doc/memo/binaryxy` for details on usage. Defaults to 0.01.
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **tuple of arrays:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  LLE, L1VE, L2VE
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-&nbsp;&nbsp;&nbsp;&nbsp; **LLE :** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Liquid 1 - Liquid 2 Equilibrium
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; LLE[0] -> Liquid 1 composition (mole fraction of component 1)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; LLE[1] -> Liquid 2 composition (mole fraction of component 1)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; LLE[2] -> Temperature [K]
-
-&nbsp;&nbsp;&nbsp;&nbsp; **L1VE :** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Liquid 1 - Vapour Equilibrium
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L1VE[0] -> Bubble line composition (mole fraction of component 1)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L1VE[1] -> Dew line composition (mole fraction of component 1)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L1VE[2] -> Temperature [K]
-
-&nbsp;&nbsp;&nbsp;&nbsp; **L2VE :** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Liquid 2 - Vapour Equilibrium
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L2VE[0] -> Bubble line composition (mole fraction of component 1)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L2VE[1] -> Dew line composition (mole fraction of component 1)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; L2VE[2] -> Temperature [K]
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
@@ -1827,8 +1739,6 @@ Computing isolines.
     * [get_isentrope](#get_isentropeself-entropy-z-minimum_pressure1000000-maximum_pressure150000000-minimum_temperature2000-maximum_temperature5000-nmax100)
     * [get_isobar](#get_isobarself-press-z-minimum_temperature2000-maximum_temperature5000-nmax100)
     * [get_isotherm](#get_isothermself-temp-z-minimum_pressure1000000-maximum_pressure150000000-nmax100)
-    * [map_meta_isentrope](#map_meta_isentropeself-z-initial_pressure-entropy-minimum_pressure-n_max50)
-    * [map_meta_isotherm](#map_meta_isothermself-temperature-z-phase-n50)
 
 
 ### `get_isenthalp(self, enthalpy, z, minimum_pressure=100000.0, maximum_pressure=15000000.0, minimum_temperature=200.0, maximum_temperature=500.0, nmax=100)`
@@ -1991,99 +1901,6 @@ Get iso-therm at specified temperature
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
-### `map_meta_isentrope(self, z, initial_pressure, entropy, minimum_pressure, n_max=50)`
-Trace isentrope into meta-stable region. Trace from pressure to minimum_pressure
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **z (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Composition (-)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **initial_pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Initial pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **entropy (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Entropy (J/mol/K).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **minimum_pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Minimum pressure (Pa).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **n_max (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Number of points on curve. Default 50.
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Raises:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **Exception:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Failure to map isentrope
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Volume (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `map_meta_isotherm(self, temperature, z, phase, n=50)`
-Trace isotherm from saturation line to spinodal. Solve for phase in chemical and thermal equilibrium with a phase defined by z anf phase flag..
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **temperature (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **z (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Composition (-)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **phase (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Phase with composition z (LIQPH or VAPPH)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **n (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Number of points on curve. Default 50.
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Raises:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **Exception:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Failure to map isotherm
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Volume of meta-stable phase (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Density (mol/m3) of equilibrium phase in each point, dimension (n,nc).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ## Stability interfaces
 
@@ -2092,16 +1909,6 @@ Critical point solver.
 ### Table of contents
   * [Stability interfaces](#stability-interfaces)
     * [critical](#criticalself-n-temp00-v00-tol1e-07-v_minnone)
-    * [critical_pressure](#critical_pressureself-i)
-    * [critical_temperature](#critical_temperatureself-i)
-    * [critical_volume](#critical_volumeself-i)
-    * [density_lnf_t](#density_lnf_tself-temp-lnf-rho_initial)
-    * [density_mu_t](#density_mu_tself-temp-mu-rho_initial)
-    * [get_critical_parameters](#get_critical_parametersself-i)
-    * [map_meta_isentrope](#map_meta_isentropeself-z-initial_pressure-entropy-minimum_pressure-n_max50)
-    * [map_meta_isotherm](#map_meta_isothermself-temperature-z-phase-n50)
-    * [spinodal](#spinodalself-z-initial_pressure1000000-initial_liquid_temperaturenone-dlnvnone-min_temperature_vapornone)
-    * [spinodal_point](#spinodal_pointself-z-pressure-phase-temperaturenone)
 
 
 ### `critical(self, n, temp=0.0, v=0.0, tol=1e-07, v_min=None)`
@@ -2155,311 +1962,6 @@ Calculate critical point in variables T and V
 
 &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
-### `critical_pressure(self, i)`
-Get critical pressure of component i
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **i (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  component FORTRAN index (first index is 1)
-
-#### returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  critical pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `critical_temperature(self, i)`
-Get critical temperature of component i
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **i (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  component FORTRAN index (first index is 1)
-
-#### returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  critical temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `critical_volume(self, i)`
-Get specific critical volume of component i Args: i (int) component FORTRAN index returns: float: specific critical volume 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `density_lnf_t(self, temp, lnf, rho_initial)`
-Solve densities (lnf=lnf(T,rho)) given temperature and fugcaity coefficients.
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **temp (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **lnf (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Logaritm of fugacity coefficients.
-
-&nbsp;&nbsp;&nbsp;&nbsp; **rho_initial (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Initial guess for component densities (mol/m3).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **rho (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Array of component densities (mol/m3).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `density_mu_t(self, temp, mu, rho_initial)`
-Solve for densities (mu=mu(T,rho)) given temperature and chemical potential.
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **temp (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **mu (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Flag to activate calculation.
-
-&nbsp;&nbsp;&nbsp;&nbsp; **rho_initial (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Initial guess for component densities (mol/m3).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **rho (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Array of component densities (mol/m3).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `get_critical_parameters(self, i)`
-Get critical temperature, volume and pressure of component i
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **i (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  component FORTRAN index (first index is 1)
-
-#### returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  critical temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  critical volume (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  critical pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `map_meta_isentrope(self, z, initial_pressure, entropy, minimum_pressure, n_max=50)`
-Trace isentrope into meta-stable region. Trace from pressure to minimum_pressure
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **z (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Composition (-)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **initial_pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Initial pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **entropy (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Entropy (J/mol/K).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **minimum_pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Minimum pressure (Pa).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **n_max (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Number of points on curve. Default 50.
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Raises:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **Exception:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Failure to map isentrope
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Volume (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `map_meta_isotherm(self, temperature, z, phase, n=50)`
-Trace isotherm from saturation line to spinodal. Solve for phase in chemical and thermal equilibrium with a phase defined by z anf phase flag..
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **temperature (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **z (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Composition (-)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **phase (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Phase with composition z (LIQPH or VAPPH)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **n (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Number of points on curve. Default 50.
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Raises:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **Exception:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Failure to map isotherm
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Volume of meta-stable phase (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Density (mol/m3) of equilibrium phase in each point, dimension (n,nc).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `spinodal(self, z, initial_pressure=100000.0, initial_liquid_temperature=None, dlnv=None, min_temperature_vapor=None)`
-Trace spinodal curve
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **z (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Composition (-)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **initial_pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Initial pressure (Pa). Defaults to 1.0e5.
-
-&nbsp;&nbsp;&nbsp;&nbsp; **initial_liquid_temperature (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Initial temperature on liquid spinodal (K).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **dlnv (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Override step size (-).
-
-&nbsp;&nbsp;&nbsp;&nbsp; **min_vapor_temperature (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Minimum temperature on vapor spinodal (K).
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Raises:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **Exception:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Failure to trace spinodal
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Volume (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **np.ndarray:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-### `spinodal_point(self, z, pressure, phase, temperature=None)`
-Solve for spinodal curve point. Not able to solve for points close to critical point. Solve for temperature if given, otherwise solve for pressure.
-
-#### Args:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **z (array_like):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Composition (-)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **pressure (float):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Pressure (Pa)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **phase (int):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Phase flag (VAPPH/LIQPH)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **temperature (float, optional):** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K). Solve for temperature if given.
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Raises:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **Exception:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Failure to solve for spinodal curve point
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
-
-#### Returns:
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Temperature (K)
-
-&nbsp;&nbsp;&nbsp;&nbsp; **float:** 
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;  Volume (m3/mol)
-
-&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 
 
 ## Virial interfaces
 
