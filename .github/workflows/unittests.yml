@@ -4,36 +4,42 @@ on: [pull_request]
 
 jobs:
   run-tests:
-    name: Run tests on ${{ matrix.os }}-${{ matrix.version }}
-    runs-on: ${{ matrix.os }}-${{ matrix.version }}
+    name: Run tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [macOS, ubuntu]
-        version: [latest]
+        os: [ubuntu-latest, macos-latest, windows-latest, macos-12]
+        toolchain:
+          - {compiler: gcc, version: 13}
+          - {compiler: intel, version: '2023.2'}
+          - {compiler: intel-classic, version: '2021.10'}
+          - {compiler: nvidia-hpc, version: '23.11'}
         include:
-            - version: 12
-              os: macOS
+          - os: ubuntu-latest
+            toolchain: {compiler: gcc, version: 12}
+        exclude:
+          - os: macos-latest
+            toolchain: {compiler: intel, version: '2023.2'}
+          - os: macos-latest
+            toolchain: {compiler: nvidia-hpc, version: '23.11'}
+          - os: windows-latest
+            toolchain: {compiler: nvidia-hpc, version: '23.11'}
 
-    outputs:
-        status: ${{ join('steps.*test.conclusion') }}
     steps:
       - uses: actions/checkout@v4
       - name: checkout submodules
         run: git submodule update --init --recursive
       
-      - name: Setup gfortran Linux
-        if: matrix.os == 'ubuntu'
-        run: echo "gfortran=$(which gfortran)" >> $GITHUB_ENV
-    
-      - name: Setup gfortran macOS
-        if: matrix.os == 'macOS'
-        run: echo "gfortran=$(which gfortran-13)" >> $GITHUB_ENV
+      - uses: fortran-lang/setup-fortran@v1
+        with:
+          compiler: ${{ matrix.toolchain.compiler }}
+          version: ${{ matrix.toolchain.version }}
     
       - name: Build ThermoPack
         run: |
-            ${{ env.gfortran }} --version
-            export FC=${{ env.gfortran }}
+            ${{ env.FC }} --version
+            export FC=${{ env.FC }}
             mkdir build
             cd build
             cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
@@ -54,7 +60,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-            name: binary-${{ matrix.os }}-${{ matrix.version }}
+            name: binary-${{ matrix.os }}
             path: ./bin/*
     
       - id: fortran_test
