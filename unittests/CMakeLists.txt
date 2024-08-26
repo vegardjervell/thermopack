@@ -9,7 +9,7 @@ target_include_directories(unittests PRIVATE ${CMAKE_BINARY_DIR}/thermopack)
 
 if (NOT MSVC AND NOT APPLE)
     set_target_properties(unittests PROPERTIES 
-                            INSTALL_RPATH ${CMAKE_CURRENT_SOURCE_DIR}/../bin
+                            INSTALL_RPATH ${CMAKE_CURRENT_SOURCE_DIR}/../installed
                             INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 

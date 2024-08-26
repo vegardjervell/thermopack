@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   run-tests:
-    name: Run tests on ${{ matrix.os }}
+    name: Run tests on ${{ matrix.os }} with ${{ matrix.toolchain.compiler }} ${{ matrix.toolchain.version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -13,8 +13,8 @@ jobs:
         toolchain:
           - {compiler: gcc, version: 13}
         include:
-          - os: ubuntu-latest
-            toolchain: {nvidia-hpc, version: '23.11'}
+          # - os: ubuntu-latest
+          #   toolchain: {nvidia-hpc, version: '23.11'}
           - os: windows-latest
             toolchain: {compiler: intel, version: '2023.2'}
           - os: windows-latest
@@ -27,10 +27,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: checkout submodules
         run: git submodule update --init --recursive
-      
-      - name: Environment status
-        run: |
-          echo ${FC}
 
       - uses: actions/setup-python@v5
       - uses: fortran-lang/setup-fortran@v1
@@ -40,15 +36,13 @@ jobs:
 
       - name: Build ThermoPack
         run: |
-            # ${{ env.FC }} --version
-            # export FC=${{ env.FC }}
-            echo ${FC}
-            which gfortran
-            gfortran --version
+            if [[ "RUNNER_OS" == "Windows" ]]; then
+              FC=${{ env.FC }}
+            fi
             mkdir build
             cd build
             cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
-            make install
+            make -j4 install
             echo "--- pycThermopack contents ---"
             ls ../addon/pycThermopack
             echo "--- pycThermopack/thermopack contents ---"

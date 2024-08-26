@@ -28,12 +28,6 @@ if(NOT MSVC)
         set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "The OSX architecture")
     endif()
 else()
-    message(${ColorRed}"cmake not configured for windows!")
-    return()
-    # Need to set up external link to lapack (preferrably a tagged relase, ex. v3.12.0):
-    # git clone https://github.com/Reference-LAPACK/lapack.git
-    # git checkout v3.12.0
-    # Build using: cmake --build . --config Release
     set(tp_flags_common "/nologo /fpp /fpe:0 /names:lowercase /assume:underscore /real-size:64 /fp:precise /extend-source:132 /iface:cref")
     set(tp_optim_flags "${tp_flags_common}")
     set(tp_debug_flags "${tp_flags_common} /check:bounds /warn:all,noexternal /traceback /check:all,noarg_temp_created,nopointers")
@@ -46,13 +40,6 @@ else()
     message(STATUS "CMAKE_BUILD_TYPE not specified, defaulting to Release.")
     set(tp_fortran_flags ${tp_optim_flags})
 endif()
-
-# Set FORTRAN compile flags for thermopack and lapack
-
-
-if(MSVC)
-    
-endif(MSVC)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src "thermopack")
 
