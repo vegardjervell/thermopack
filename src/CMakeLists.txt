@@ -1,3 +1,5 @@
+set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${tp_fortran_flags}")
+
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.f90)
 list(REMOVE_ITEM SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/thermopack.f90)
 set(TREND_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../addon/trend_interface/include)
@@ -5,6 +7,8 @@ set(TREND ${TREND_DIR}/trend_interface.f95)
 
 if(NOT MSVC)
     find_package(LAPACK REQUIRED)
+else()
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/lapack)
 endif()
 
 add_library(libthermopack STATIC ${SOURCES})
@@ -21,14 +25,17 @@ else(MSVC)
     add_library(thermopack SHARED $<TARGET_OBJECTS:libthermopack>)
 endif(MSVC)
 
-set_target_properties(libthermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set_target_properties(libthermopack PROPERTIES 
+                                    Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                                    OUTPUT_NAME thermopack)
 target_include_directories(libthermopack PUBLIC ${TREND_DIR})
+
 set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(thermopack PUBLIC ${TREND_DIR})
 
-install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
+install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)
+install(TARGETS libthermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)
 install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../addon/pycThermopack/thermopack)
-install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../addon/cppThermopack)
 
 add_executable(run_thermopack ${CMAKE_CURRENT_SOURCE_DIR}/thermopack.f90)
 target_include_directories(run_thermopack PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
@@ -40,3 +47,5 @@ else()
     target_link_libraries(thermopack PRIVATE lapack blas)
     target_link_libraries(run_thermopack libthermopack lapack blas)
 endif()
+
+install(TARGETS run_thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)

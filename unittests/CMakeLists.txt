@@ -13,4 +13,4 @@ if (NOT MSVC AND NOT APPLE)
                             INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif()
 
-install(TARGETS unittests DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
+install(TARGETS unittests DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)

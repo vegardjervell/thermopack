@@ -48,7 +48,7 @@ jobs:
             mkdir build
             cd build
             cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
-            make -j4 install
+            make install
             echo "--- pycThermopack contents ---"
             ls ../addon/pycThermopack
             echo "--- pycThermopack/thermopack contents ---"
@@ -58,21 +58,21 @@ jobs:
         if: matrix.os == 'ubuntu'
         run: | 
           echo "--- Inspecting libthermopack ---"
-          ldd bin/libthermopack.so
+          ldd installed/libthermopack.so
           echo "--- Inspecting run_unittests ---"
-          ldd bin/unittests
+          ldd installed/unittests
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
             name: binary-${{ matrix.os }}
-            path: ./bin/*
+            path: ./installed/*
     
       - id: fortran_test
         name: Run unittests
         continue-on-error: true
         run: |
-            result=$(./bin/unittests)
+            result=$(./installed/unittests)
             if echo "$result" | grep -q "OK"; then
             statuscode=0
             else

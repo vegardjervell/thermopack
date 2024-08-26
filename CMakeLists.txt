@@ -48,10 +48,10 @@ else()
 endif()
 
 # Set FORTRAN compile flags for thermopack and lapack
-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${tp_fortran_flags}")
+
 
 if(MSVC)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/lapack)
+    
 endif(MSVC)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src "thermopack")
