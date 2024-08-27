@@ -40,11 +40,11 @@ jobs:
           cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
 
       - name: Build ThermoPack
-        if: ${{ matrix.os }} != 'windows-latest'
+        if: matrix.os != 'windows-latest'
         run: cd build && make -j4 install
       
       - name: Build ThermoPack Windows
-        if: ${{ matrix.os }} == 'windows-latest'
+        if: matrix.os == 'windows-latest'
         run: |
           echo "Building on ${{ matrix.os }}"
           cd build
