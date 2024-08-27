@@ -28,22 +28,24 @@ jobs:
       - name: checkout submodules
         run: git submodule update --init --recursive
 
-      - uses: actions/setup-python@v5
       - uses: fortran-lang/setup-fortran@v1
         with:
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
+      
+      - name: Config ThermoPack build
+        run: |
+          mkdir build
+          cd build
+          cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
 
       - name: Build ThermoPack
-        run: |
-            mkdir build
-            cd build
-            cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_Fortran_Compiler=${FC} ..
-            make -j4 install
-            echo "--- pycThermopack contents ---"
-            ls ../addon/pycThermopack
-            echo "--- pycThermopack/thermopack contents ---"
-            ls ../addon/pycThermopack/thermopack
+        if: ${{ matrix.os }} != 'Windows'
+        run: make -j4 install
+      
+      - name: Build ThermoPack Windows
+        if: ${{ matrix.os }} == 'Windows'
+        run: cmake --build . --target INSTALL
     
       - name: Inspect thermopack
         if: matrix.os == 'ubuntu'
