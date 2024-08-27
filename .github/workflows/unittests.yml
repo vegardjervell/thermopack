@@ -38,7 +38,7 @@ jobs:
         run: |
             mkdir build
             cd build
-            cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
+            cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_Fortran_Compiler=${FC} ..
             make -j4 install
             echo "--- pycThermopack contents ---"
             ls ../addon/pycThermopack
