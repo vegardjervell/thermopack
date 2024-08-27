@@ -35,19 +35,23 @@ jobs:
       
       - name: Config ThermoPack build
         run: |
-          mkdir build
-          cd build
-          cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
+          
 
       - name: Build ThermoPack
         if: matrix.os != 'windows-latest'
-        run: cd build && make -j4 install
+        run: |
+          mkdir build
+          cd build
+          cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
+          make -j4 install
       
       - name: Build ThermoPack Windows
         if: matrix.os == 'windows-latest'
         run: |
           echo "Building on ${{ matrix.os }}"
+          mkdir build
           cd build
+          cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_Fortran_COMPILER=${FC} ..
           cmake --build . --target INSTALL
     
       - name: Inspect thermopack
