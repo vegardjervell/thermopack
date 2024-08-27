@@ -41,11 +41,13 @@ jobs:
 
       - name: Build ThermoPack
         if: ${{ matrix.os }} != 'Windows'
-        run: make -j4 install
+        run: cd build && make -j4 install
       
       - name: Build ThermoPack Windows
         if: ${{ matrix.os }} == 'Windows'
-        run: cmake --build . --target INSTALL
+        run: |
+          cd build
+          cmake --build . --target INSTALL
     
       - name: Inspect thermopack
         if: matrix.os == 'ubuntu'
