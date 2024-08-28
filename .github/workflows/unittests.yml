@@ -56,7 +56,7 @@ jobs:
           echo "Using compiler $env:FC / ${{ env.FC }}"
           mkdir build
           cd build
-          cmake .. -Dtest=ON -CMAKE_Fortran_COMPILER=${{ env.FC }}
+          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER=${{ env.FC }}
           cmake --build . --target INSTALL
     
       - name: Inspect thermopack

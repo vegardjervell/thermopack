@@ -54,6 +54,7 @@ jobs:
             yum install -y lapack lapack-devel
           
           CIBW_BEFORE_BUILD_WINDOWS: |
+            echo "Running before_build on windows ..."
             mkdir build
             cd build
             cmake ..
