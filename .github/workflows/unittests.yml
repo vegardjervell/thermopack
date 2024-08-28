@@ -29,13 +29,15 @@ jobs:
         run: git submodule update --init --recursive
 
       - uses: fortran-lang/setup-fortran@v1
+        if: matrix.os != 'macos-12'
         with:
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
       
-      - name: Config ThermoPack build
+      - name: Setup gfortran macos-12
+        if: matrix.os == 'macos-12'
         run: |
-          
+          export FC=$(which gfortran-13)
 
       - name: Build ThermoPack
         if: matrix.os != 'windows-latest'
@@ -49,6 +51,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           echo "Building on ${{ matrix.os }}"
+          echo "Using compiler ${FC}"
           mkdir build
           cd build
           cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_Fortran_COMPILER=${FC} ..
