@@ -56,9 +56,13 @@ jobs:
           CIBW_BEFORE_BUILD_WINDOWS: |
             echo "Running before_build on windows ..."
             mkdir build
+            echo "Created build dir ..."
             cd build
+            echo "Moved into build dir ..."
             cmake ..
+            echo "cmake finished ..."
             cmake --build . --target INSTALL
+            echo "build finished ..."
             python ../addon/pycThermopack/map_platform_specifics.py
             echo "--- pycThermopack contents ---"
             dir ../addon/pycThermopack
