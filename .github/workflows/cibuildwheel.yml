@@ -40,8 +40,6 @@ jobs:
         with:
           compiler: gcc
           version: 13
-      
-      - uses: actions/setup-python@v5
 
       - name: Check macOS deployment target
         if: matrix.os == 'macOS'
@@ -65,7 +63,6 @@ jobs:
             dir ../addon/pycThermopack
             echo "--- pycThermopack/thermopack contents ---"
             dir ../addon/pycThermopack/thermopack
-            echo "--- Inspecting libthermopack ---"
           
           CIBW_BEFORE_BUILD: |
             ${{ env.gfortran }} --version
@@ -81,6 +78,7 @@ jobs:
             ls ../addon/pycThermopack/thermopack
             echo "--- Inspecting libthermopack ---"
             ${{ env.libinspector }}
+
           CIBW_BUILD: "*cp311*"
           CIBW_SKIP: "*musllinux*"
           CIBW_TEST_SKIP: "*x86_64*"

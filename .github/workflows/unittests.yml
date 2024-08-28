@@ -52,11 +52,11 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           echo "Building on ${{ matrix.os }}"
-          set FC=${{ env.FC }}
-          echo "Using compiler ${FC}"
+          setx FC "${{ env.FC }}"
+          echo "Using compiler $env:FC / ${{ env.FC }}"
           mkdir build
           cd build
-          cmake .. -Dtest=ON
+          cmake .. -Dtest=ON -CMAKE_Fortran_COMPILER=${{ env.FC }}
           cmake --build . --target INSTALL
     
       - name: Inspect thermopack
