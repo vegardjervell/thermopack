@@ -61,6 +61,11 @@ jobs:
             cmake ..
             cmake --build . --target INSTALL
             python ../addon/pycThermopack/map_platform_specifics.py
+            echo "--- pycThermopack contents ---"
+            dir ../addon/pycThermopack
+            echo "--- pycThermopack/thermopack contents ---"
+            dir ../addon/pycThermopack/thermopack
+            echo "--- Inspecting libthermopack ---"
           
           CIBW_BEFORE_BUILD: |
             ${{ env.gfortran }} --version
