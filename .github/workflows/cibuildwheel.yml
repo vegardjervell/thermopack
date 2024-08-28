@@ -53,20 +53,20 @@ jobs:
             yum install -y blas blas-devel
             yum install -y lapack lapack-devel
           
-          CIBW_BEFORE_BUILD_WINDOWS: |
-            echo "Running before_build on windows ..."
-            mkdir build
-            echo "Created build dir ..."
-            cd build
-            echo "Moved into build dir ..."
-            cmake ..
-            echo "cmake finished ..."
-            cmake --build . --target INSTALL
-            echo "build finished ..."
-            python ../addon/pycThermopack/map_platform_specifics.py
-            echo "--- pycThermopack contents ---"
-            dir ../addon/pycThermopack
-            echo "--- pycThermopack/thermopack contents ---"
+          CIBW_BEFORE_BUILD_WINDOWS: >
+            echo "Running before_build on windows ..." &&
+            mkdir build && 
+            echo "Created build dir ..." &&
+            cd build &&
+            echo "Moved into build dir ..." &&
+            cmake .. &&
+            echo "cmake finished ..." &&
+            cmake --build . --target INSTALL &&
+            echo "build finished ..." &&
+            python ../addon/pycThermopack/map_platform_specifics.py &&
+            echo "--- pycThermopack contents ---" &&
+            dir ../addon/pycThermopack &&
+            echo "--- pycThermopack/thermopack contents ---" &&
             dir ../addon/pycThermopack/thermopack
           
           CIBW_BEFORE_BUILD: |

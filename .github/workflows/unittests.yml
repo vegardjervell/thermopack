@@ -53,12 +53,12 @@ jobs:
         run: |
           echo "Building on ${{ matrix.os }}"
           setx FC "${{ env.FC }}"
-          setx FC_PATH "$(Get-Command ${{ env.FC }}).Path"
+          setx FC_PATH "$(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path)"
           echo "Using compiler $env:FC / ${{ env.FC }}"
-          echo "gfortran at $(Get-Command ${{ env.FC }}).Path / $env:FC_PATH"
+          echo "gfortran at $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $env:FC_PATH"
           mkdir build
           cd build
-          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER=$(Get-Command ${{ env.FC }}).Path
+          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER=$(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path)
           cmake --build . --target INSTALL
     
       - name: Inspect thermopack
