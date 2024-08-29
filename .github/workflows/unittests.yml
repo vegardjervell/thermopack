@@ -12,13 +12,13 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest, macos-12]
         toolchain:
           - {compiler: gcc, version: 13}
-        # include:
+        include:
           # - os: ubuntu-latest
           #   toolchain: {nvidia-hpc, version: '23.11'}
-          # - os: windows-latest
-          #   toolchain: {compiler: intel, version: '2023.2'}
-          # - os: windows-latest
-          #   toolchain: {compiler: intel-classic, version: '2021.10'}
+          - os: windows-latest
+            toolchain: {compiler: intel, version: '2023.2'}
+          - os: windows-latest
+            toolchain: {compiler: intel-classic, version: '2021.10'}
         # exclude:
         #   - os: windows-latest
         #     toolchain: {compiler: gcc, version: 13}

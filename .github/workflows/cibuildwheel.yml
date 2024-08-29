@@ -38,8 +38,8 @@ jobs:
         if: matrix.os == 'windows'
         uses: fortran-lang/setup-fortran@v1
         with:
-          compiler: gcc
-          version: 13
+          compiler: intel
+          version: '2023.2'
 
       - name: Check macOS deployment target
         if: matrix.os == 'macOS'
@@ -59,7 +59,8 @@ jobs:
             echo "Created build dir ..." &&
             cd build &&
             echo "Moved into build dir ..." &&
-            cmake .. &&
+            $FC_PATH = "$((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')" &&
+            cmake .. -DCMAKE_Fortran_COMPILER="$FC_PATH" &&
             echo "cmake finished ..." &&
             cmake --build . --target INSTALL &&
             echo "build finished ..." &&
