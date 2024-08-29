@@ -58,7 +58,7 @@ jobs:
           echo "gfortran at $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           mkdir build
           cd build
-          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER="$(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path)"
+          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER="$(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path -replace '\\', '/')"
           cmake --build . --target INSTALL
     
       - name: Inspect thermopack
