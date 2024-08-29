@@ -59,8 +59,7 @@ jobs:
             echo "Created build dir ..." &&
             cd build &&
             echo "Moved into build dir ..." &&
-            $FC_PATH = "$((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')" &&
-            cmake .. -DCMAKE_Fortran_COMPILER="$FC_PATH" &&
+            cmake .. -DCMAKE_Fortran_COMPILER="$((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')" &&
             echo "cmake finished ..." &&
             cmake --build . --target INSTALL &&
             echo "build finished ..." &&

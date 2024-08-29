@@ -53,7 +53,7 @@ jobs:
         run: |
           echo "Building on ${{ matrix.os }}"
           setx FC "${{ env.FC }}"
-          $FC_PATH = "$((Get-Command gfortran | Select-Object -ExpandProperty Path) -replace '\\', '/')"
+          $FC_PATH = "$((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')"
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "gfortran at $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           mkdir build
