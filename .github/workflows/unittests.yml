@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest, macos-12]
+        os: [ubuntu-latest, macos-latest, windows-2022, macos-12]
         toolchain:
           - {compiler: gcc, version: 13}
         include:
@@ -58,7 +58,7 @@ jobs:
           echo "gfortran at $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           mkdir build
           cd build
-          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER="$FC_PATH"
+          cmake .. -G "Visual Studio 17 2022" -Dtest=ON -DCMAKE_Fortran_COMPILER="$FC_PATH"
           cmake --build . --target INSTALL
     
       - name: Inspect thermopack
