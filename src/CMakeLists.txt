@@ -27,7 +27,7 @@ endif(MSVC)
 
 set_target_properties(libthermopack PROPERTIES 
                                     Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                                    OUTPUT_NAME thermopack)
+                                    OUTPUT_NAME thermopack_static)
 target_include_directories(libthermopack PUBLIC ${TREND_DIR})
 
 set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
