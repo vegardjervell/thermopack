@@ -8,7 +8,7 @@ set(TREND ${TREND_DIR}/trend_interface.f95)
 if(NOT MSVC)
     find_package(LAPACK REQUIRED)
 else()
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../external/lapack)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../external/lapack "lapack")
 endif()
 
 add_library(libthermopack STATIC ${SOURCES})
