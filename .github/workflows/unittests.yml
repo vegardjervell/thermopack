@@ -63,7 +63,7 @@ jobs:
           # mkdir build
           # cd build
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
-          cmake --build build --target INSTALL
+          cmake --build build --target install
     
       - name: Inspect thermopack
         if: matrix.os == 'ubuntu'
