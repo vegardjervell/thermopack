@@ -15,10 +15,10 @@ jobs:
         include:
           # - os: ubuntu-latest
           #   toolchain: {nvidia-hpc, version: '23.11'}
-          - os: windows-latest
-            toolchain: {compiler: intel, version: '2023.2'}
-          - os: windows-latest
-            toolchain: {compiler: intel-classic, version: '2021.10'}
+          - os: windows-2022
+            toolchain: {compiler: intel, version: '2024.1'}
+          - os: windows-2022
+            toolchain: {compiler: intel-classic, version: '2021.12'}
         # exclude:
         #   - os: windows-latest
         #     toolchain: {compiler: gcc, version: 13}
@@ -27,6 +27,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: checkout submodules
         run: git submodule update --init --recursive
+
+      - name: Install ninja-build tool
+        if: matrix.os == 'windows-2022'
+        uses: seanmiddleditch/gha-setup-ninja@16b940825621068d98711680b6c3ff92201f8fc0
 
       - uses: fortran-lang/setup-fortran@v1
         if: matrix.os != 'macos-12'
@@ -41,7 +45,7 @@ jobs:
           echo FC=$FC >> $GITHUB_ENV
 
       - name: Build ThermoPack
-        if: matrix.os != 'windows-latest'
+        if: matrix.os != 'windows-2022'
         run: |
           mkdir build
           cd build
@@ -49,17 +53,17 @@ jobs:
           make -j4 install
       
       - name: Build ThermoPack Windows
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-2022'
         run: |
           echo "Building on ${{ matrix.os }}"
           $FC = ${{ env.FC }}
           $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
-          mkdir build
-          cd build
-          cmake .. -Dtest=ON -DCMAKE_Fortran_COMPILER=${{ env.FC }}
-          cmake --build . --target INSTALL
+          # mkdir build
+          # cd build
+          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
+          cmake --build build --target INSTALL
     
       - name: Inspect thermopack
         if: matrix.os == 'ubuntu'
