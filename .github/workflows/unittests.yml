@@ -62,7 +62,7 @@ jobs:
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           # mkdir build
           # cd build
-          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
+          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_EXE_LINKER_FLAGS="-Wl,--stack=2097152" -DCMAKE_BUILD_TYPE=Release -DLAPACKE:BOOL=ON -DCBLAS:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=ON
           cmake --build build --target install
     
       - name: Inspect thermopack
