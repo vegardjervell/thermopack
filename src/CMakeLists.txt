@@ -45,7 +45,7 @@ if(NOT MSVC)
     target_link_libraries(run_thermopack libthermopack ${LAPACK_LIBRARIES})
 else()
     target_link_libraries(thermopack PUBLIC blas lapack)
-    target_link_libraries(run_thermopack libthermopack)
+    target_link_libraries(run_thermopack libthermopack blas lapack)
 endif()
 
 install(TARGETS run_thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)
