@@ -28,17 +28,15 @@ if(NOT MSVC)
         set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "The OSX architecture")
     endif()
 else()
-    set(tp_flags_common "/nologo /fpp /fpe:0 /names:lowercase /assume:underscore /real-size:64 /fp:precise /extend-source:132 /iface:cref")
+    # Build using: cmake --build . --config Release
+    set(tp_flags_common "/nologo /fpp /fpe:0 /names:lowercase /assume:underscore /fp:precise /extend-source:132 /iface:cref")
     set(tp_optim_flags "${tp_flags_common}")
-    set(tp_debug_flags "${tp_flags_common} /check:bounds /warn:all,noexternal /traceback /check:all,noarg_temp_created,nopointers")
+    set(tp_debug_flags "${tp_flags_common} /check:bounds /traceback")
 endif()
 
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-    set(tp_fortran_flags ${tp_debug_flags})
-else()
-    set(CMAKE_BUILD_TYPE "Release")
-    message(STATUS "CMAKE_BUILD_TYPE not specified, defaulting to Release.")
-    set(tp_fortran_flags ${tp_optim_flags})
+# Check if the build type is not set and set it to Release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src "thermopack")

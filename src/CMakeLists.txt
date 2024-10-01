@@ -1,4 +1,6 @@
-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${tp_fortran_flags}")
+# Set FORTRAN compile flags for thermopack and lapack
+set(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE} ${tp_optim_flags}")
+set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} ${tp_debug_flags}")
 
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.f90)
 list(REMOVE_ITEM SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/thermopack.f90)
@@ -8,7 +10,17 @@ set(TREND ${TREND_DIR}/trend_interface.f95)
 if(NOT MSVC)
     find_package(LAPACK REQUIRED)
 else()
+    if(POLICY CMP0077)
+        set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+    endif()
+    # Disable single/complex/complex16 as it is not used by thermopack
+    set(BUILD_SINGLE OFF)
+    set(BUILD_COMPLEX OFF)
+    set(BUILD_COMPLEX16 OFF)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../external/lapack "lapack")
+    # Add flags not comatible with lapack
+    set(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE} /real-size:64 ")
+    set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /real-size:64 /warn:all,noexternal /check:all,noarg_temp_created,nopointers")
 endif()
 
 add_library(libthermopack STATIC ${SOURCES})
@@ -44,8 +56,8 @@ if(NOT MSVC)
     target_link_libraries(thermopack ${LAPACK_LIBRARIES})
     target_link_libraries(run_thermopack libthermopack ${LAPACK_LIBRARIES})
 else()
-    target_link_libraries(thermopack PUBLIC blas lapack)
-    target_link_libraries(run_thermopack libthermopack blas lapack)
+    target_link_libraries(thermopack PUBLIC lapack blas)
+    target_link_libraries(run_thermopack libthermopack lapack blas)
 endif()
 
 install(TARGETS run_thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)
