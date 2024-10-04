@@ -26,6 +26,7 @@ endif()
 add_library(libthermopack STATIC ${SOURCES})
 if(MSVC)
     add_library(thermopack SHARED ${SOURCES})
+    set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dynamic)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /libs:static /threads")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DEF:${CMAKE_SOURCE_DIR}/MSVStudio/thermopack.def")
 else(MSVC)
@@ -35,6 +36,7 @@ else(MSVC)
         # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--version-script=${CMAKE_SOURCE_DIR}/libthermopack_export.version")
     endif(APPLE)
     add_library(thermopack SHARED $<TARGET_OBJECTS:libthermopack>)
+    set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endif(MSVC)
 
 set_target_properties(libthermopack PROPERTIES 
@@ -42,7 +44,6 @@ set_target_properties(libthermopack PROPERTIES
                                     OUTPUT_NAME thermopack_static)
 target_include_directories(libthermopack PUBLIC ${TREND_DIR})
 
-set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dynamic)
 target_include_directories(thermopack PUBLIC ${TREND_DIR})
 
 install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)

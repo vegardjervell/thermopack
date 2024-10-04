@@ -63,7 +63,7 @@ jobs:
             echo "cmake finished ..." &&
             cmake --build . --target INSTALL &&
             echo "build finished ..." &&
-            python ../addon/pycThermopack/map_platform_specifics.py &&
+            python -c "import sys; sys.path.insert(0, '../addon/pycThermopack'); import makescript; makescript.windows_make('v3')" &&
             echo "--- pycThermopack contents ---" &&
             dir ../addon/pycThermopack &&
             echo "--- pycThermopack/thermopack contents ---" &&
