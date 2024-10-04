@@ -89,7 +89,7 @@ jobs:
     
       - id: fortran_test
         name: Run unittests
-        if: matrix.os != 'windows-latest'
+        if: matrix.os != 'windows-2022'
         continue-on-error: true
         run: |
             result=$(./installed/unittests)
@@ -105,6 +105,7 @@ jobs:
       - uses: actions/setup-python@v5
       - id: python_test 
         name: Run python tests
+        if: matrix.os != 'windows-2022'
         continue-on-error: true
         run: |
             python addon/pycThermopack/map_platform_specifics.py
@@ -120,6 +121,26 @@ jobs:
             echo "statuscode=$statuscode" >> $GITHUB_OUTPUT
             exit $statuscode
     
+      - uses: actions/setup-python@v5
+      - id: python_test_windows
+        name: Run python tests
+        if: matrix.os == 'windows-2022'
+        continue-on-error: true
+        run: |
+            python -c "import sys; sys.path.insert(0, './addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
+            pip install ./addon/pycThermopack/[test]
+            pytest ./addon/pyTests
+            pytest addon\pyTests > result.txt
+            findstr /C:"FAILED" result.txt > nul
+            if %ERRORLEVEL% equ 0 (
+              set statuscode=1
+            ) else (
+              set statuscode=0
+            )
+            type result.txt
+            echo statuscode=%statuscode% >> %GITHUB_OUTPUT%
+            exit /b %statuscode%
+
       - name: Check success
         run: |
             echo "Fortran test result : ${{ steps.fortran_test.outputs.statuscode }}"
