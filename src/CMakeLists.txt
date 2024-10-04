@@ -42,7 +42,7 @@ set_target_properties(libthermopack PROPERTIES
                                     OUTPUT_NAME thermopack_static)
 target_include_directories(libthermopack PUBLIC ${TREND_DIR})
 
-set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/dynamic)
 target_include_directories(thermopack PUBLIC ${TREND_DIR})
 
 install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)
