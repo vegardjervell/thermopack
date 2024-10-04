@@ -28,6 +28,11 @@ jobs:
       - name: checkout submodules
         run: git submodule update --init --recursive
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install ninja-build tool
         if: matrix.os == 'windows-2022'
         uses: seanmiddleditch/gha-setup-ninja@16b940825621068d98711680b6c3ff92201f8fc0
@@ -129,17 +134,15 @@ jobs:
         run: |
             python -c "import sys; sys.path.insert(0, './addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
             pip install ./addon/pycThermopack/[test]
-            pytest ./addon/pyTests
-            pytest addon\pyTests > result.txt
-            findstr /C:"FAILED" result.txt > nul
-            if %ERRORLEVEL% equ 0 (
-              set statuscode=1
-            ) else (
-              set statuscode=0
-            )
-            type result.txt
-            echo statuscode=%statuscode% >> %GITHUB_OUTPUT%
-            exit /b %statuscode%
+            $result = pytest ./addon/pyTests
+            if ($result -match "FAILED") {
+              $statuscode = 1
+            } else {
+              $statuscode = 0
+            }
+            Write-Output $result
+            Add-Content -Path $env:GITHUB_OUTPUT -Value "statuscode=$statuscode"
+            exit $statuscode
 
       - name: Check success
         run: |
