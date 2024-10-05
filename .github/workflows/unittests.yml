@@ -28,16 +28,12 @@ jobs:
       - name: checkout submodules
         run: git submodule update --init --recursive
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
       - name: Install ninja-build tool
         if: matrix.os == 'windows-2022'
         uses: seanmiddleditch/gha-setup-ninja@16b940825621068d98711680b6c3ff92201f8fc0
 
       - uses: fortran-lang/setup-fortran@v1
+        id: setup-fortran
         if: matrix.os != 'macos-12'
         with:
           compiler: ${{ matrix.toolchain.compiler }}
@@ -60,6 +56,11 @@ jobs:
       - name: Build LAPACK Windows
         if: matrix.os == 'windows-2022'
         run: |
+          echo "Building on ${{ matrix.os }}"
+          $FC = ${{ env.FC }}
+          $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
+          echo "Using compiler $env:FC / ${{ env.FC }}"
+          echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           cd external
           cd lapack
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
@@ -109,7 +110,7 @@ jobs:
             
       - uses: actions/setup-python@v5
       - id: python_test 
-        name: Run python tests
+        name: Run python tests for Linux/MacOS
         if: matrix.os != 'windows-2022'
         continue-on-error: true
         run: |
@@ -127,8 +128,10 @@ jobs:
             exit $statuscode
     
       - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - id: python_test_windows
-        name: Run python tests
+        name: Run python tests for Windows
         if: matrix.os == 'windows-2022'
         continue-on-error: true
         run: |
