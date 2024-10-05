@@ -56,16 +56,9 @@ jobs:
       - name: Build LAPACK Windows
         if: matrix.os == 'windows-2022'
         run: |
-          echo "Building on ${{ matrix.os }}"
-          $FC = ${{ env.FC }}
-          $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
-          echo "Using compiler $env:FC / ${{ env.FC }}"
-          echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
-          $CC = icx
-          $CXX = icx
           cd external
           cd lapack
-          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
+          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
           cmake --build build --target install
 
       - name: Build ThermoPack Windows
