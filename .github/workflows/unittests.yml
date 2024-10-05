@@ -56,8 +56,6 @@ jobs:
       - name: Build LAPACK Windows
         if: matrix.os == 'windows-2022'
         run: |
-          echo "Using compiler $env:CC / ${{ env.CC }}"
-          echo "Using compiler $env:CXX / ${{ env.CXX }}"
           cd external
           cd lapack
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
@@ -71,8 +69,6 @@ jobs:
           $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
-          # mkdir build
-          # cd build
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
           cmake --build build --target install
     
@@ -132,9 +128,11 @@ jobs:
         if: matrix.os == 'windows-2022'
         continue-on-error: true
         run: |
+            python -m pip install --upgrade pip
+            pip install pytest
             python -c "import sys; sys.path.insert(0, './addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
             pip install ./addon/pycThermopack/[test]
-            $result = pytest ./addon/pyTests
+            $result = python -m pytest ./addon/pyTests
             if ($result -match "FAILED") {
               $statuscode = 1
             } else {
@@ -145,6 +143,7 @@ jobs:
             exit $statuscode
 
       - name: Check success
+        if: matrix.os != 'windows-2022'
         run: |
             echo "Fortran test result : ${{ steps.fortran_test.outputs.statuscode }}"
             echo "Python test result : ${{ steps.python_test.outputs.statuscode }}"
@@ -154,3 +153,13 @@ jobs:
             exit 1
             fi
 
+      - name: Check success Windows
+        if: matrix.os == 'windows-2022'
+        run: |
+            $statusCode = ${{ steps.python_test_windows.outputs.statuscode }}
+            Write-Host "Python test result: $statusCode"
+            if ($statusCode -eq 0) {
+              exit 0
+            } else {
+              exit 1
+            }
