@@ -53,13 +53,13 @@ jobs:
           cmake -Dtest=ON -DCMAKE_BUILD_TYPE=Debug ..
           make -j4 install
       
-      - name: Build LAPACK Windows
-        if: matrix.os == 'windows-2022'
-        run: |
-          cd external
-          cd lapack
-          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
-          cmake --build build --target install
+      # - name: Build LAPACK Windows
+      #   if: matrix.os == 'windows-2022'
+      #   run: |
+      #     cd external
+      #     cd lapack
+      #     cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
+      #     cmake --build build --target install
 
       - name: Build ThermoPack Windows
         if: matrix.os == 'windows-2022'
