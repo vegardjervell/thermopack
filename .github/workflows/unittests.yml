@@ -70,7 +70,7 @@ jobs:
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
-          cmake --build build --target install
+          cmake --build build --target install --verbose
     
       - name: Inspect thermopack
         if: matrix.os == 'ubuntu'
