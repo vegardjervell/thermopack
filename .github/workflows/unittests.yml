@@ -131,6 +131,7 @@ jobs:
             python -m pip install --upgrade pip
             pip install pytest numpy
             python -c "import sys; sys.path.insert(0, './addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
+            dumpbin /EXPORTS ./addon/pycThermopack/thermopack/thermopack.dll
             pip install ./addon/pycThermopack/[test]
             $result = python -m pytest ./addon/pyTests
             if ($result -match "FAILED") {
