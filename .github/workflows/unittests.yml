@@ -61,6 +61,8 @@ jobs:
           $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
+          $CC = icx
+          $CXX = icx
           cd external
           cd lapack
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
@@ -156,8 +158,4 @@ jobs:
             else
             exit 1
             fi
-        
 
-
-    
-            
