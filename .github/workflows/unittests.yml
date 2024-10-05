@@ -56,6 +56,8 @@ jobs:
       - name: Build LAPACK Windows
         if: matrix.os == 'windows-2022'
         run: |
+          echo "Using compiler $env:CC / ${{ env.CC }}"
+          echo "Using compiler $env:CXX / ${{ env.CXX }}"
           cd external
           cd lapack
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
@@ -71,7 +73,7 @@ jobs:
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
           # mkdir build
           # cd build
-          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }}
+          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icx
           cmake --build build --target install
     
       - name: Inspect thermopack
