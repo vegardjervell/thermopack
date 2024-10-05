@@ -83,7 +83,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-            name: binary-${{ matrix.os }}
+            name: binary-${{ matrix.os }}-${{ matrix.toolchain.compiler }}
             path: ./installed/*
     
       - id: fortran_test
@@ -131,6 +131,7 @@ jobs:
             python -m pip install --upgrade pip
             pip install pytest numpy
             python -c "import sys; sys.path.insert(0, './addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
+            type './addon/pycThermopack/thermopack/platform_specifics.py'
             pip install ./addon/pycThermopack/[test]
             $result = python -m pytest ./addon/pyTests
             if ($result -match "FAILED") {
