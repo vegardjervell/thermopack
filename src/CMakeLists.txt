@@ -39,7 +39,7 @@ else(MSVC)
     add_library(thermopack SHARED $<TARGET_OBJECTS:libthermopack>)
     set_target_properties(thermopack PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 endif(MSVC)
-
+message(STATUS "Linker: ${CMAKE_LINKER}")
 set_target_properties(libthermopack PROPERTIES 
                                     Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                                     OUTPUT_NAME thermopack_static)
