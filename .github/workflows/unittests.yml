@@ -73,9 +73,9 @@ jobs:
           $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
-      # cmake -B build -G "Visual Studio 17 2022" -DCMAKE_Fortran_COMPILER=${{ env.FC }} 
           cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
           cmake --build build --target install --verbose
+      # cmake -B build -G "Visual Studio 17 2022" -DCMAKE_Fortran_COMPILER=${{ env.FC }} 
       
       - name: Inspect thermopack
         if: matrix.os == 'ubuntu'
