@@ -9,14 +9,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-2022, macos-12]
+        os: [ubuntu-latest, macos-latest, macos-12]
         toolchain:
           - {compiler: gcc, version: 13}
         include:
           # - os: ubuntu-latest
           #   toolchain: {nvidia-hpc, version: '23.11'}
-          - os: windows-2022
-            toolchain: {compiler: intel, version: '2024.1'}
+          # - os: windows-2022
+          #   toolchain: {compiler: intel, version: '2024.1'}
           - os: windows-2022
             toolchain: {compiler: intel-classic, version: '2021.12'}
         # exclude:
@@ -66,24 +66,41 @@ jobs:
       #     cmake --build build --target install
 
       - name: Build ThermoPack Windows
-        if: matrix.os == 'windows-2022'
+        if: ${{ runner.os == 'Windows' }}
         run: |
           echo "Building on ${{ matrix.os }}"
           $FC = ${{ env.FC }}
           $FC_PATH = $((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')
           echo "Using compiler $env:FC / ${{ env.FC }}"
           echo "Fortran compiler at: $(Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) / $FC_PATH"
-          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
-          cmake --build build --target install --verbose
+          cmake -B build -G Ninja -DCMAKE_Fortran_COMPILER=${{ env.FC }} -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=Release 
+          cmake --build build --config Release --target install --verbose
       # cmake -B build -G "Visual Studio 17 2022" -DCMAKE_Fortran_COMPILER=${{ env.FC }} 
       
-      - name: Inspect thermopack
-        if: matrix.os == 'ubuntu'
+      - name: Inspect thermopack Linux
+        if: ${{ runner.os == 'Linux' }}
         run: | 
           echo "--- Inspecting libthermopack ---"
           ldd installed/libthermopack.so
+          nm installed/libthermopack.so | grep " T "
           echo "--- Inspecting run_unittests ---"
           ldd installed/unittests
+
+      - name: Inspect thermopack MacOS
+        if: ${{ runner.os == 'macOS' }}
+        run: | 
+          echo "--- Inspecting libthermopack ---"
+          otool -L installed/libthermopack.dylib
+          nm installed/libthermopack.dylib | grep " T "
+          echo "--- Inspecting run_unittests ---"
+          otool -L installed/unittests
+
+      - name: Inspect thermopack Windows
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          echo "--- Inspecting libthermopack.dll ---"
+          dumpbin /DEPENDENTS installed/libthermopack.dll
+          dumpbin /EXPORTS installed/libthermopack.dll
 
       - name: Upload
         uses: actions/upload-artifact@v4
@@ -136,7 +153,6 @@ jobs:
             python -m pip install --upgrade pip
             pip install pytest numpy
             python -c "import sys; sys.path.insert(0, './addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
-            dumpbin /EXPORTS ./addon/pycThermopack/thermopack/thermopack.dll
             pip install ./addon/pycThermopack/[test]
             $result = python -m pytest ./addon/pyTests
             if ($result -match "FAILED") {

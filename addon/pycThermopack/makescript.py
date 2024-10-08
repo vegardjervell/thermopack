@@ -24,7 +24,7 @@ def windows_make(diffs):
     pf_specifics["module"] = "_mp_"
     pf_specifics["postfix"] = "_"
     pf_specifics["postfix_no_module"] = "_"
-    pf_specifics["dyn_lib"] = "thermopack.dll"
+    pf_specifics["dyn_lib"] = "libthermopack.dll"
     pf_specifics["diff_return_mode"] = diffs
     pf_specifics_path = os.path.join(os.path.dirname(__file__), "thermopack", "platform_specifics.py")
     map_platform_specifics.write_platform_specifics_file(pf_specifics, pf_specifics_path)

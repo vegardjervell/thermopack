@@ -29,7 +29,7 @@ if(NOT MSVC)
     endif()
 else()
     # Build using: cmake --build . --config Release
-    set(tp_flags_common "/nologo /fpp /fpe:0 /names:lowercase /assume:underscore /fp:precise /extend-source:132 /iface:cref")
+    set(tp_flags_common "/nologo /fpp /fpe:0 /names:lowercase /assume:underscore /fp:precise /extend-source:132 /iface:cref /Qdiag-disable:10448")
     set(tp_optim_flags "${tp_flags_common}")
     set(tp_debug_flags "${tp_flags_common} /check:bounds /traceback")
 endif()

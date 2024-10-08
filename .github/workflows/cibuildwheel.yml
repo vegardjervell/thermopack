@@ -38,8 +38,8 @@ jobs:
         if: matrix.os == 'windows'
         uses: fortran-lang/setup-fortran@v1
         with:
-          compiler: intel
-          version: '2023.2'
+          compiler: intel-classic
+          version: '2021.12'
 
       - name: Check macOS deployment target
         if: matrix.os == 'macOS'
@@ -53,21 +53,7 @@ jobs:
             yum install -y blas blas-devel
             yum install -y lapack lapack-devel
           
-          CIBW_BEFORE_BUILD_WINDOWS: >
-            echo "Running before_build on windows ..." &&
-            mkdir build && 
-            echo "Created build dir ..." &&
-            cd build &&
-            echo "Moved into build dir ..." &&
-            cmake .. -DCMAKE_Fortran_COMPILER="$((Get-Command ${{ env.FC }} | Select-Object -ExpandProperty Path) -replace '\\', '/')" &&
-            echo "cmake finished ..." &&
-            cmake --build . --target INSTALL &&
-            echo "build finished ..." &&
-            python -c "import sys; sys.path.insert(0, '../addon/pycThermopack'); import makescript; makescript.windows_make('v3')" &&
-            echo "--- pycThermopack contents ---" &&
-            dir ../addon/pycThermopack &&
-            echo "--- pycThermopack/thermopack contents ---" &&
-            dir ../addon/pycThermopack/thermopack
+          CIBW_BEFORE_BUILD_WINDOWS: powershell -ExecutionPolicy Bypass -File .github/scripts/before_windows_build.ps1
           
           CIBW_BEFORE_BUILD: |
             ${{ env.gfortran }} --version
