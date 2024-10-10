@@ -1,10 +1,14 @@
 name: cibuildwheel
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 
 jobs:
   build_wheels:
-    # if: github.event_name == 'pull_request'
     name: Build ${{ matrix.tp_version }} wheels on ${{ matrix.os }}-${{ matrix.version }}
     runs-on: ${{ matrix.os }}-${{ matrix.version }}
     timeout-minutes: 30
@@ -91,7 +95,6 @@ jobs:
           path: ./wheelhouse/*.whl
 
   release_wheels: # Create or update the release tagged Latest-beta, and upload wheels to that release.
-    # if: github.event.pull_request.merged == true
     name: Update prerelease
     needs: build_wheels
     runs-on: ubuntu-latest
@@ -115,7 +118,6 @@ jobs:
         zip -r "${dir}.zip" ${dir}
         done
     
-
     - name: Display current directory status
       run: ls
     
@@ -129,5 +131,5 @@ jobs:
         tag: Latest-beta
         commit: main
         makeLatest: true
-        bodyFile: ".github/release_bodyFile.md"
-        artifacts: "wheel-*"
+        bodyFile: ".github/prerelease_bodyFile.md"
+        artifacts: "wheel-*.zip"
