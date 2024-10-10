@@ -73,6 +73,7 @@ jobs:
           CIBW_BUILD: "*cp311*"
           CIBW_SKIP: "*musllinux*"
           CIBW_TEST_SKIP: "*x86_64*"
+          CIBW_BUILD_VERBOSITY: 1
         with:
           package-dir: "./addon/pycThermopack"
           output-dir: "./wheelhouse"
