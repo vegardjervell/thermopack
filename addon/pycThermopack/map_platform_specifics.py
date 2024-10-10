@@ -185,8 +185,7 @@ def get_platform_specifics_windows_ifort_whl():
     pf_specifics["module"] = "_mp_"
     pf_specifics["postfix"] = "_"
     pf_specifics["postfix_no_module"] = "_"
-    pf_specifics["dyn_lib"] = "thermopack.dll"
-    print('Using ifort pfs...')
+    pf_specifics["dyn_lib"] = "libthermopack.dll"
     return pf_specifics
 
 def warn_diff_version(diffs):
