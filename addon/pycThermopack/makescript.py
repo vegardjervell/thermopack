@@ -7,25 +7,17 @@ import shutil
 import sys
 import warnings
 from pathlib import Path
+from map_platform_specifics import VERSION_2, VERSION_3, pf_specifics_path
 import map_platform_specifics
 
 def windows_make(diffs):
     if diffs != 'v2':
         diffs = 'v3'
 
-    pf_specifics = {}
-    pf_specifics["os_id"] = "win"
-    pf_specifics["prefix"] = ""
-    pf_specifics["module"] = "_mp_"
-    pf_specifics["postfix"] = "_"
-    pf_specifics["postfix_no_module"] = "_"
-    pf_specifics["dyn_lib"] = "libthermopack.dll"
+    pf_specifics = map_platform_specifics.get_platform_specifics_windows_ifort_whl()
     pf_specifics["diff_return_mode"] = diffs
-    pf_specifics_path = os.path.join(os.path.dirname(__file__), "thermopack", "platform_specifics.py")
     map_platform_specifics.write_platform_specifics_file(pf_specifics, pf_specifics_path)
-    map_platform_specifics.correct_toml_version(diffs)
-    # map_platform_specifics.write_setup_file(f'v{version}')
-    # map_platform_specifics.write_toml_file(version)
+    map_platform_specifics.set_toml_version(diffs)
 
 
 if __name__ == "__main__":
@@ -51,7 +43,6 @@ if __name__ == "__main__":
 
         shutil.copy2(libthermo, "./thermopack/libthermopack"+libthermo.suffix)
 
-    pf_specifics_path = os.path.join(os.path.dirname(__file__), "thermopack", "platform_specifics.py")
     pf_specifics = map_platform_specifics.get_platform_specifics_by_trial_and_error()
 
     if args.diffs == 'v2':
@@ -64,23 +55,10 @@ if __name__ == "__main__":
         version = VERSION_3
         args.diffs = 'v3'
 
-    if args.diffs == 'v2':
-        warnings.warn('\033[93mYou are building ThermoPack to use the deprecated return pattern using tuples.\n'
-                      'Future versions of ThermoPack will return differentials using the `Differential` struct found in utils.py. '
-                      'To build ThermoPack to use the new return pattern, run \n`python makescript.py [optim/debug]`\n'
-                      'For more information see PR#102 at https://github.com/thermotools/thermopack/pull/102\033[0m', DeprecationWarning)
-    else:
-        warnings.warn('\033[93mYou are building ThermoPack using the "new" return pattern (i.e. the Differential structs found '
-                      "in utils.py.) \nTHIS IS THE RECOMMENDED BUILD but I'm warning you because it is not backwards compatible.\n"
-                      "The old return pattern will probably be discontinued in the future. To build "
-                      'ThermoPack with the "old" return pattern (using tuples) run \n`python makescript.py [optim/debug] -diffs=v2`\n\n'
-                      'For information on how to adapt old code to the new return pattern, see '
-                      'PR#102 at https://github.com/thermotools/thermopack/pull/102\033[0m', Warning)
+    map_platform_specifics.warn_diff_version(args.diffs)
 
     pf_specifics['diff_return_mode'] = args.diffs
     map_platform_specifics.write_platform_specifics_file(pf_specifics, pf_specifics_path)
-
-    # map_platform_specifics.write_setup_file(f'v{version}')
-    # map_platform_specifics.write_toml_file(version)
+    map_platform_specifics.set_toml_version(version)
 
     print(f'\033[92mSuccessfully configured ThermoPack {version}\033[0m')

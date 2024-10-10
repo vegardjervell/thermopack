@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build_wheels:
+    # if: github.event_name == 'pull_request'
     name: Build wheels on ${{ matrix.os }}-${{ matrix.version }}
     runs-on: ${{ matrix.os }}-${{ matrix.version }}
     timeout-minutes: 30
@@ -12,6 +13,7 @@ jobs:
       matrix:
         os: [macOS, ubuntu, windows]
         version: [latest]
+        tp_version: [v2, v3]
         include:
             - version: 12
               os: macOS
@@ -62,7 +64,7 @@ jobs:
             cd build
             cmake ..
             make -j4 install
-            python ../addon/pycThermopack/map_platform_specifics.py
+            python ../addon/pycThermopack/map_platform_specifics.py --diffs=${{ matrix.tp_version }}
             echo "--- pycThermopack contents ---"
             ls ../addon/pycThermopack
             echo "--- pycThermopack/thermopack contents ---"
@@ -72,7 +74,7 @@ jobs:
 
           CIBW_BUILD: "*cp311*"
           CIBW_SKIP: "*musllinux*"
-          CIBW_TEST_SKIP: "*x86_64*"
+          CIBW_TEST_SKIP: "*x86_64* thermopack-2*"
           CIBW_BUILD_VERBOSITY: 1
         with:
           package-dir: "./addon/pycThermopack"
@@ -83,3 +85,44 @@ jobs:
         with:
           name: wheel-${{ matrix.os }}-${{ matrix.version }}
           path: ./wheelhouse/*.whl
+
+  release_wheels: # Create or update the release tagged Latest-beta, and upload wheels to that release.
+    # if: github.event.pull_request.merged == true
+    name: Update prerelease
+    needs: build_wheels
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download created wheels
+      uses: actions/download-artifact@v4
+      with:
+        pattern: wheel-*
+    
+    - name: Display full directory status
+      run: ls -R .
+    
+    - name: zip wheels
+      run: |
+        for dir in wheels-*; do
+        zip -r "${dir}.zip" ${dir}
+        done
+    
+    - name: Display current directory status
+      run: ls
+    
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        prerelease: true
+        updateOnlyUnreleased: true
+        removeArtifacts: true
+        name: "Latest (beta)"
+        tag: Latest-beta
+        commit: main
+        makeLatest: true
+        bodyFile: ".github/release_bodyFile.md"
+        artifacts: "wheels-*.zip"
