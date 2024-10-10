@@ -1,6 +1,10 @@
 name: cibuildwheel
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build_wheels:
@@ -92,7 +96,7 @@ jobs:
 
   release_wheels: # Create or update the release tagged Latest-beta, and upload wheels to that release.
     name: Update prerelease
-    if: github.ref_name == 'main'
+    if: github.ref == 'refs/heads/main'
     needs: build_wheels
     runs-on: ubuntu-latest
     permissions:
