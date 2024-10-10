@@ -56,3 +56,4 @@ venv*
 *.idea
 *.vscode
 scripts/
+!.github/scripts/

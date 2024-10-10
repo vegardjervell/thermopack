@@ -8,7 +8,8 @@ cmake .. -G Ninja -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=cl -DCMAKE_C
 echo "cmake finished ..."
 cmake --build . --config=Release --target install
 echo "build finished ..."
-python -c "import sys; sys.path.insert(0, '../addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
+# python -c "import sys; sys.path.insert(0, '../addon/pycThermopack'); import makescript; makescript.windows_make('v3')"
+python ../addon/pycThermopack/map_platform_specifics.py --diffs=v3 --ifort=True
 echo "--- pycThermopack contents ---"
 dir ../addon/pycThermopack
 echo "--- pycThermopack/thermopack contents ---"

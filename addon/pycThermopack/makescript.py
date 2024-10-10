@@ -9,15 +9,10 @@ import warnings
 from pathlib import Path
 import map_platform_specifics
 
-VERSION_2 = '2.2.3'
-VERSION_3 = '3.b0'
-
 def windows_make(diffs):
-    if diffs == 'v2':
-        version = VERSION_2
-    else:
-        version = VERSION_3
+    if diffs != 'v2':
         diffs = 'v3'
+
     pf_specifics = {}
     pf_specifics["os_id"] = "win"
     pf_specifics["prefix"] = ""
@@ -28,8 +23,9 @@ def windows_make(diffs):
     pf_specifics["diff_return_mode"] = diffs
     pf_specifics_path = os.path.join(os.path.dirname(__file__), "thermopack", "platform_specifics.py")
     map_platform_specifics.write_platform_specifics_file(pf_specifics, pf_specifics_path)
-    map_platform_specifics.write_setup_file(f'v{version}')
-    map_platform_specifics.write_toml_file(version)
+    map_platform_specifics.correct_toml_version(diffs)
+    # map_platform_specifics.write_setup_file(f'v{version}')
+    # map_platform_specifics.write_toml_file(version)
 
 
 if __name__ == "__main__":
@@ -63,7 +59,7 @@ if __name__ == "__main__":
     elif args.diffs == 'v3':
         version = VERSION_3
     else:
-        warnings.warn(f'-diffs={args.diffs} is not a valid value. Valid values are -diffs=[v2.1/v3], treating as -diffs=v3',
+        warnings.warn(f'-diffs={args.diffs} is not a valid value. Valid values are -diffs=[v2/v3], treating as -diffs=v3',
                       Warning)
         version = VERSION_3
         args.diffs = 'v3'
