@@ -17,7 +17,10 @@ jobs:
         include:
             - version: 12
               os: macOS
-              tp_version: [v2, v3]
+              tp_version: v2
+            - version: 12
+              os: macOS
+              tp_version: v3
 
     steps:
       - uses: actions/checkout@v4
@@ -106,6 +109,13 @@ jobs:
     - name: Display full directory status
       run: ls -R .
     
+    - name: zip wheels
+      run: |
+        for dir in wheel-*; do
+        zip -r "${dir}.zip" ${dir}
+        done
+    
+
     - name: Display current directory status
       run: ls
     

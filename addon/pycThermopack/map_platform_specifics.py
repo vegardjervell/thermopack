@@ -205,7 +205,7 @@ def warn_diff_version(diffs):
                       'For more information on configuration options run \n\n\t`python map_platform_specifics.py --help\n\n\033[0m', Warning)
 
 if __name__ == "__main__":
-    VERSION_2 = '2.2.3'
+    VERSION_2 = '2.2.4b0'
     VERSION_3 = '3.b0'
 
     parser = argparse.ArgumentParser()
