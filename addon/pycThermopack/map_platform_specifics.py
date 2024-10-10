@@ -167,8 +167,8 @@ def write_platform_specifics_file(pf_specifics, filename):
             f.write("\n")
 
 def set_toml_version(version):
-    with open('__pyproject.toml', 'r') as ifile:
-        with open('pyproject.toml', 'w') as ofile:
+    with open(f'{os.path.dirname(__file__)}/__pyproject.toml', 'r') as ifile:
+        with open(f'{os.path.dirname(__file__)}/pyproject.toml', 'w') as ofile:
             line = ifile.readline()
             while line:
                 if line == 'version = "0.0.0"\n':
