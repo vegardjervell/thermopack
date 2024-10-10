@@ -8,7 +8,7 @@
 
 
 message(STATUS "ThermoPack found at: ${CMAKE_CURRENT_LIST_DIR}")
-set(THERMOPACK_LIB ${CMAKE_CURRENT_LIST_DIR}/addon/cppThermopack/libthermopack${CMAKE_SHARED_LIBRARY_SUFFIX})
+set(THERMOPACK_LIB ${CMAKE_CURRENT_LIST_DIR}/installed/libthermopack${CMAKE_SHARED_LIBRARY_SUFFIX})
 set(THERMOPACK_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 if(NOT EXISTS ${THERMOPACK_LIB})
@@ -17,6 +17,8 @@ if(NOT EXISTS ${THERMOPACK_LIB})
     message(STATUS "ThermoPack has not been properly installed.")
     return()
 endif()
+
+set(THERMOPACK_STATIC_LIB ${CMAKE_CURRENT_LIST_DIR}/installed/libthermopack${CMAKE_STATIC_LIBRARY_SUFFIX})
 
 set(THERMOPACK_FOUND TRUE)
 set(THERMOPACK_INSTALLED TRUE)
