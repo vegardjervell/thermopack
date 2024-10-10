@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build_wheels:
     # if: github.event_name == 'pull_request'
-    name: Build wheels on ${{ matrix.os }}-${{ matrix.version }}
+    name: Build ${{ matrix.tp_version }} wheels on ${{ matrix.os }}-${{ matrix.version }}
     runs-on: ${{ matrix.os }}-${{ matrix.version }}
     timeout-minutes: 30
     strategy:
@@ -17,6 +17,7 @@ jobs:
         include:
             - version: 12
               os: macOS
+              tp_version: [v2, v3]
 
     steps:
       - uses: actions/checkout@v4
@@ -83,7 +84,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheel-${{ matrix.os }}-${{ matrix.version }}
+          name: wheel-${{ matrix.tp_version }}-${{ matrix.os }}-${{ matrix.version }}
           path: ./wheelhouse/*.whl
 
   release_wheels: # Create or update the release tagged Latest-beta, and upload wheels to that release.
@@ -105,12 +106,6 @@ jobs:
     - name: Display full directory status
       run: ls -R .
     
-    - name: zip wheels
-      run: |
-        for dir in wheels-*; do
-        zip -r "${dir}.zip" ${dir}
-        done
-    
     - name: Display current directory status
       run: ls
     
@@ -125,4 +120,4 @@ jobs:
         commit: main
         makeLatest: true
         bodyFile: ".github/release_bodyFile.md"
-        artifacts: "wheels-*.zip"
+        artifacts: "wheel-*"
