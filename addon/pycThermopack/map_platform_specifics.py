@@ -167,14 +167,16 @@ def write_platform_specifics_file(pf_specifics, filename):
             f.write("\n")
 
 def set_toml_version(version):
-    with open(f'{os.path.dirname(__file__)}/__pyproject.toml', 'r') as ifile:
-        with open(f'{os.path.dirname(__file__)}/pyproject.toml', 'w') as ofile:
+    contents = ''
+    with open(f'{os.path.dirname(__file__)}/pyproject.toml', 'r') as ifile:
+        line = ifile.readline()
+        while line:
+            if line == 'version = "0.0.0"\n':
+                line = f'version = "{version}"\n'
+            contents += line
             line = ifile.readline()
-            while line:
-                if line == 'version = "0.0.0"\n':
-                    line = f'version = "{version}"\n'
-                ofile.write(line)
-                line = ifile.readline()
+    with open(f'{os.path.dirname(__file__)}/pyproject.toml', 'w') as ofile:
+        ofile.write(contents)
 
 def get_platform_specifics_windows_ifort_whl():
     pf_specifics = dict()
