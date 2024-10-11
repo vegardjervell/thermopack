@@ -1,9 +1,9 @@
 #Set-PSDebug -Trace 1
-echo "Running before_build on windows ..."
+$tp_version = $args[0]
+
+echo "Running before_build on windows for version $tp_version"
 mkdir build
-echo "Created build dir ..."
 cd build
-echo "Moved into build dir ..."
 cmake .. -G Ninja -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=Release
 echo "cmake finished ..."
 cmake --build . --config=Release --target install
