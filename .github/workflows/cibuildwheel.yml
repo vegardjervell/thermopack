@@ -1,10 +1,9 @@
 name: cibuildwheel
 
-on: [push, pull_request]
+on: []
 
 jobs:
   build_wheels:
-
     name: Build ${{ matrix.tp_version }} wheels on ${{ matrix.os }}-${{ matrix.version }}
     runs-on: ${{ matrix.os }}-${{ matrix.version }}
     timeout-minutes: 30

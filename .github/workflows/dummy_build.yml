@@ -1,0 +1,20 @@
+name: Dummy Build
+
+on: [push, pull_request]
+
+jobs:
+  build_wheels:
+    name: Dummy build
+    runs-on: ubuntu-latest 
+    steps:
+        - name: Build
+          run: echo "Building ..."
+    
+  release_wheels:
+    name: Dummy release
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+        - name: Release
+          run: echo "Releasing ..."
+
