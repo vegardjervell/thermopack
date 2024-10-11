@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest 
     steps:
         - name: Build
-          run: echo "Building ..."
+          run: echo "Building ... but not a PR"
     
   release_wheels:
     name: Dummy release
