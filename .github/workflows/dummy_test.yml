@@ -1,0 +1,15 @@
+name: Dummy Test
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+jobs:
+  run_tests:
+    name: Dummy test
+    runs-on: ubuntu-latest 
+    steps:
+        - name: Test
+          run: echo "Testing ..."
