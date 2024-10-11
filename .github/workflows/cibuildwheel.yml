@@ -1,9 +1,14 @@
 name: cibuildwheel
 
-on: []
+on:
+  push:
+      branches:
+          - main
+  pull_request:
 
 jobs:
   build_wheels:
+    if: github.ref == 'refs/heads/main' || github.event_name != 'push'
     name: Build ${{ matrix.tp_version }} wheels on ${{ matrix.os }}-${{ matrix.version }}
     runs-on: ${{ matrix.os }}-${{ matrix.version }}
     timeout-minutes: 30
@@ -57,9 +62,9 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y blas blas-devel
             yum install -y lapack lapack-devel
-          
-          CIBW_BEFORE_BUILD_WINDOWS: powershell -ExecutionPolicy Bypass -File .github/scripts/before_windows_build.ps1
-          
+
+          CIBW_BEFORE_BUILD_WINDOWS: powershell -ExecutionPolicy Bypass -File .github/scripts/before_windows_build.ps1 ${{ matrix.tp_version }}
+
           CIBW_BEFORE_BUILD: |
             ${{ env.gfortran }} --version
             export FC=${{ env.gfortran }}
@@ -91,7 +96,7 @@ jobs:
 
   release_wheels: # Create or update the release tagged Latest-beta, and upload wheels to that release.
     name: Update prerelease
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: build_wheels
     runs-on: ubuntu-latest
     permissions:

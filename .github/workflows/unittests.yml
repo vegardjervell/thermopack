@@ -1,6 +1,10 @@
 name: unittests
 
-on: []
+on:
+  push:
+      branches:
+          - main
+  pull_request:
 
 jobs:
   run-tests:
@@ -13,15 +17,8 @@ jobs:
         toolchain:
           - {compiler: gcc, version: 13}
         include:
-          # - os: ubuntu-latest
-          #   toolchain: {nvidia-hpc, version: '23.11'}
-          # - os: windows-2022
-          #   toolchain: {compiler: intel, version: '2024.1'}
           - os: windows-2022
             toolchain: {compiler: intel-classic, version: '2021.12'}
-        # exclude:
-        #   - os: windows-latest
-        #     toolchain: {compiler: gcc, version: 13}
 
     steps:
       - uses: actions/checkout@v4
