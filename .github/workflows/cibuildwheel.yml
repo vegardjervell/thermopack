@@ -62,19 +62,19 @@ jobs:
           CIBW_BEFORE_ALL_LINUX: |
             yum install -y blas blas-devel
             yum install -y lapack lapack-devel
-          
-          CIBW_BEFORE_BUILD_WINDOWS: | # powershell -ExecutionPolicy Bypass -File .github/scripts/before_windows_build.ps1
-            mkdir build
-            cd build
-            cmake .. -G Ninja -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=Release
-            echo "cmake finished ..."
-            cmake --build . --config=Release --target install
-            echo "build finished ..."
-            python ../addon/pycThermopack/map_platform_specifics.py --diffs=${{ matrix.tp_version }} --ifort=True
-            echo "--- pycThermopack contents ---"
-            dir ../addon/pycThermopack
-            echo "--- pycThermopack/thermopack contents ---"
-            dir ../addon/pycThermopack/thermopack
+          # powershell -ExecutionPolicy Bypass -File .github/scripts/before_windows_build.ps1
+          CIBW_BEFORE_BUILD_WINDOWS: > 
+            mkdir build &&
+            cd build &&
+            cmake .. -G Ninja -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=Release &&
+            echo "cmake finished ..." && 
+            cmake --build . --config=Release --target install && 
+            echo "build finished ..." && 
+            python ../addon/pycThermopack/map_platform_specifics.py --diffs=${{ matrix.tp_version }} --ifort=True &&
+            echo "--- pycThermopack contents ---" && 
+            dir ../addon/pycThermopack && 
+            echo "--- pycThermopack/thermopack contents ---" && 
+            dir ../addon/pycThermopack/thermopack && 
 
           CIBW_BEFORE_BUILD: |
             ${{ env.gfortran }} --version
