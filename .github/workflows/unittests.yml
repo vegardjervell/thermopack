@@ -175,7 +175,7 @@ jobs:
           examples=("flashes" "saturation" "tp_properties" "tv_properties")
           nfailed=0
           for exmp in "${examples[@]}"; do echo "Running $exmp"; ./"$exmp" > /dev/null; if [[ $? -ne 0 ]]; then echo "$exmp exited with code $? (failure)."; ((nfailed++)); else echo "$exmp exit 0 (success)"; fi; done
-          echo "statuscode=$nfailed" << $GITHUB_OUTPUT
+          echo "statuscode=$nfailed" >> $GITHUB_OUTPUT
           exit $nfailed
       
       - name: Check success
@@ -184,7 +184,7 @@ jobs:
             echo "Fortran test result : ${{ steps.fortran_test.outputs.statuscode }}"
             echo "Python test result : ${{ steps.python_test.outputs.statuscode }}"
             echo "C++ test result : " ${{ steps.cpp_test.outputs.statuscode }}
-            if [[ ${{ steps.fortran_test.outputs.statuscode }} -eq 0 ]] && [[ ${{ steps.python_test.outputs.statuscode }} -eq 0 ]]; then
+            if [[ ${{ steps.fortran_test.outputs.statuscode }} -eq 0 ]] && [[ ${{ steps.python_test.outputs.statuscode }} -eq 0 ]] && [[ ${{ steps.cpp_test.outputs.statuscode }} -eq 0 ]]; then
             exit 0
             else
             exit 1
