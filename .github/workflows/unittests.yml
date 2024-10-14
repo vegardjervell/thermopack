@@ -121,6 +121,7 @@ jobs:
             exit $statuscode
             
       - uses: actions/setup-python@v5
+      
       - id: python_test 
         name: Run python tests for Linux/MacOS
         if: matrix.os != 'windows-2022'
@@ -142,6 +143,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - id: python_test_windows
         name: Run python tests for Windows
         if: matrix.os == 'windows-2022'
@@ -160,12 +162,28 @@ jobs:
             Write-Output $result
             Add-Content -Path $env:GITHUB_OUTPUT -Value "statuscode=$statuscode"
             exit $statuscode
-
+      
+      - name: cpp_test
+        id: cpp_test
+        if: matrix.os != 'windows-2022'
+        run: |
+          cd addon/cppExamples
+          mkdir build
+          cd build
+          cmake ..
+          make
+          examples=("flashes" "saturation" "tp_properties" "tv_properties")
+          nfailed=0
+          for exmp in "${examples[@]}"; do echo "Running $exmp"; ./"$exmp" > /dev/null; if [[ $? -ne 0 ]]; then echo "$exmp exited with code $? (failure)."; ((nfailed++)); else echo "$exmp exit 0 (success)"; fi; done
+          echo "statuscode=$nfailed" << $GITHUB_OUTPUT
+          exit $nfailed
+      
       - name: Check success
         if: matrix.os != 'windows-2022'
         run: |
             echo "Fortran test result : ${{ steps.fortran_test.outputs.statuscode }}"
             echo "Python test result : ${{ steps.python_test.outputs.statuscode }}"
+            echo "C++ test result : " ${{ steps.cpp_test.outputs.statuscode }}
             if [[ ${{ steps.fortran_test.outputs.statuscode }} -eq 0 ]] && [[ ${{ steps.python_test.outputs.statuscode }} -eq 0 ]]; then
             exit 0
             else
