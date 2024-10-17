@@ -21,13 +21,16 @@ if(NOT MSVC)
 
     option(dist "Prefer static linking dependencies into dynamic library (preferred for distributables)" ON)
     if(dist)
-        set(CMAKE_SHARED_LINKER_FLAGS "-static-libgfortran -static-libquadmath")
+        
     endif()
 
     if(APPLE)
         set(tp_linker_flags "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/../libthermopack_export.symbols")
+        set(CMAKE_SHARED_LINKER_FLAGS "-static-libgfortran -static-libquadmath")
     else(APPLE)
         set(tp_linker_flags "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/../libthermopack_export.version")
+        set(CMAKE_SHARED_LINKER_FLAGS "-static-libgfortran")
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a" ".so")
     endif(APPLE)
 
     target_link_options(thermopack PRIVATE ${tp_linker_flags})
