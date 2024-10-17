@@ -19,18 +19,11 @@ if(NOT MSVC)
     find_package(LAPACK REQUIRED)
     target_link_libraries(thermopack PRIVATE ${LAPACK_LIBRARIES})
 
-    option(dist "Prefer static linking dependencies into dynamic library (preferred for distributables)" ON)
-    if(dist)
-        
-    endif()
-
     if(APPLE)
         set(tp_linker_flags "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/../libthermopack_export.symbols")
         set(CMAKE_SHARED_LINKER_FLAGS "-static-libgfortran -static-libquadmath")
     else(APPLE)
         set(tp_linker_flags "-Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/../libthermopack_export.version")
-        set(CMAKE_SHARED_LINKER_FLAGS "-static-libgfortran")
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a" ".so")
     endif(APPLE)
 
     target_link_options(thermopack PRIVATE ${tp_linker_flags})
@@ -48,7 +41,7 @@ else()
     set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /real-size:64 /warn:all,noexternal /check:all,noarg_temp_created,nopointers")
 
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    set_target_properties(thermopack OUTPUT_NAME libthermopack)
+    set_target_properties(thermopack PROPERTIES OUTPUT_NAME libthermopack)
 
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DEF:${CMAKE_SOURCE_DIR}/MSVStudio/thermopack.def")
     target_link_options(thermopack PRIVATE "/NODEFAULTLIB:libmmd" "/NODEFAULTLIB:MSVCRT" "/NODEFAULTLIB:libifcoremd" "/NODEFAULTLIB:svml_dispmd")
