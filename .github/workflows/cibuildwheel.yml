@@ -70,7 +70,7 @@ jobs:
             export FC=${{ env.gfortran }}
             mkdir build
             cd build
-            cmake ..
+            cmake .. -Ddist=ON
             make -j4 install
             python ../addon/pycThermopack/map_platform_specifics.py --diffs=${{ matrix.tp_version }}
             echo "--- pycThermopack contents ---"
@@ -82,7 +82,7 @@ jobs:
 
           CIBW_BUILD: "*cp311*"
           CIBW_SKIP: "*musllinux*"
-          CIBW_TEST_SKIP: "*x86_64* thermopack-2*"
+          CIBW_TEST_SKIP: "*x86_64*"
           CIBW_BUILD_VERBOSITY: 1
         with:
           package-dir: "./addon/pycThermopack"
@@ -96,7 +96,7 @@ jobs:
 
   release_wheels: # Create or update the release tagged Latest-beta, and upload wheels to that release.
     name: Update prerelease
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    ## if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: build_wheels
     runs-on: ubuntu-latest
     permissions:
@@ -122,6 +122,14 @@ jobs:
     - name: Display current directory status
       run: ls
     
+    - name: Create cpp dist
+      run: bash .github/scripts/create_cppdist.sh
+    
+    - uses: actions/upload-artifact@v4
+      with:
+        name: cppdist
+        path: ./thermopack-*.zip
+
     - uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
@@ -133,4 +141,4 @@ jobs:
         commit: main
         makeLatest: true
         bodyFile: ".github/prerelease_bodyFile.md"
-        artifacts: "wheel-*.zip"
+        artifacts: "wheel-*.zip,thermopack-*.zip"
