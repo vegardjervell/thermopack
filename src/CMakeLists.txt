@@ -7,15 +7,18 @@ list(REMOVE_ITEM SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/thermopack.f90)
 set(TREND_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../addon/trend_interface/include)
 set(TREND ${TREND_DIR}/trend_interface.f95)
 
+set(tp_MOD_dir ${CMAKE_CURRENT_BINARY_DIR}/mod)
+
 add_library(thermopack_obj OBJECT ${SOURCES})
-set_target_properties(thermopack_obj PROPERTIES Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/mod)
+set_target_properties(thermopack_obj PROPERTIES Fortran_MODULE_DIRECTORY ${tp_MOD_dir})
 target_include_directories(thermopack_obj PUBLIC ${TREND_DIR})
 
-add_library(thermopack SHARED $<TARGET_OBJECTS:thermopack_obj>)
 add_library(thermopack_static STATIC $<TARGET_OBJECTS:thermopack_obj>)
 set_target_properties(thermopack_static PROPERTIES OUTPUT_NAME thermopack)
 
 if(NOT MSVC)
+    add_library(thermopack SHARED $<TARGET_OBJECTS:thermopack_obj>)
+
     find_package(LAPACK REQUIRED)
     target_link_libraries(thermopack PRIVATE ${LAPACK_LIBRARIES})
 
@@ -41,6 +44,7 @@ else()
     set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} /real-size:64 /warn:all,noexternal /check:all,noarg_temp_created,nopointers")
 
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    add_library(thermopack SHARED $<TARGET_OBJECTS:thermopack_obj>)
     set_target_properties(thermopack PROPERTIES OUTPUT_NAME libthermopack)
 
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /DEF:${CMAKE_SOURCE_DIR}/MSVStudio/thermopack.def")
@@ -52,7 +56,7 @@ install(TARGETS thermopack DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../addon/pycT
 install(TARGETS thermopack_static DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../installed/)
 
 add_executable(run_thermopack ${CMAKE_CURRENT_SOURCE_DIR}/thermopack.f90)
-target_include_directories(run_thermopack PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/mod)
+target_include_directories(run_thermopack PUBLIC ${tp_MOD_dir})
 
 if(NOT MSVC)
     target_link_libraries(run_thermopack PRIVATE thermopack_static ${LAPACK_LIBRARIES})
